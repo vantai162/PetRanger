@@ -58,9 +58,9 @@ export default function Services() {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-[#98CE00] to-[#98CE00] text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl mb-6">Our Services</h1>
+          <h1 className="text-4xl md:text-5xl mb-6">Dịch Vụ</h1>
           <p className="text-xl max-w-3xl mx-auto opacity-90">
-            Comprehensive pet care services designed to keep your furry friends happy, healthy, and looking their best.
+            Tại PetRanger, chúng tôi cung cấp dịch vụ chăm sóc thú cưng toàn diện với tình yêu và sự tận tâm. Khám phá các dịch vụ của chúng tôi để mang lại trải nghiệm tốt nhất cho thú cưng của bạn.
           </p>
         </div>
       </section>
@@ -119,9 +119,9 @@ export default function Services() {
       {/* CTA Section */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl mb-4">Need Help Choosing?</h2>
+          <h2 className="text-3xl md:text-4xl mb-4">Cần hỗ trợ?</h2>
           <p className="text-gray-600 text-lg mb-8">
-            Our team is here to help you find the perfect services for your pet. Contact us for personalized recommendations.
+            Chúng tôi luôn sẵn sàng giúp đỡ bạn với bất kỳ câu hỏi nào về dịch vụ của chúng tôi hoặc để đặt lịch hẹn cho thú cưng của bạn. Hãy liên hệ với chúng tôi ngay hôm nay!
           </p>
           <button className="bg-[#98CE00] hover:bg-[#98CE00] text-white px-8 py-3 rounded-lg transition-colors">
             Contact Us

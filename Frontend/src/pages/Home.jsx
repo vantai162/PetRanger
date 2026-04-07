@@ -53,25 +53,25 @@ export default function Home() {
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
-          <h1 className="text-5xl md:text-6xl mb-6 max-w-2xl">
-            Complete Care for Your Beloved Pets
+          <h1 className="text-5xl md:text-7xl mb-6 max-w-3xl">
+            Chăm sóc thú cưng hoàn hảo
           </h1>
           <p className="text-xl mb-8 max-w-xl">
-            From grooming to veterinary services, we provide everything your pet needs to live their best life.
+            Tại PetRanger, chúng tôi cung cấp dịch vụ chăm sóc thú cưng toàn diện với tình yêu và sự tận tâm.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
               to="/services"
               className="bg-[#98CE00] hover:bg-[#98CE00] text-white px-8 py-3 rounded-lg inline-flex items-center gap-2 transition-colors"
             >
-              Our Services
+              Dịch vụ
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
               to="/contact"
               className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white px-8 py-3 rounded-lg transition-colors border border-white/30"
             >
-              Contact Us
+              Liên hệ
             </Link>
           </div>
         </div>
@@ -80,33 +80,33 @@ export default function Home() {
       {/* Why Choose Us */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl text-center mb-12">Why Choose PawfectCare?</h2>
+          <h2 className="text-3xl md:text-4xl text-center mb-12">Tại sao chọn PetRanger?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-[#98CE00]/10 rounded-full mb-4">
                 <Heart className="w-8 h-8 text-[#98CE00]" />
               </div>
-              <h3 className="text-xl mb-2">Chăm sóc tuyệt tình</h3>
+              <h3 className="text-xl mb-2">Chăm sóc tận tình</h3>
               <p className="text-gray-600">
-                Our team genuinely loves animals and treats every pet like family.
+                Đội ngũ yêu thương và chăm sóc từng thú cưng như chính của mình.
               </p>
             </div>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-[#98CE00]/10 rounded-full mb-4">
                 <Shield className="w-8 h-8 text-[#98CE00]" />
               </div>
-              <h3 className="text-xl mb-2">Safe & Secure</h3>
+              <h3 className="text-xl mb-2">An toàn & Bảo mật</h3>
               <p className="text-gray-600">
-                State-of-the-art facilities with the highest safety standards.
+                Các cơ sở hiện đại với tiêu chuẩn an toàn cao nhất.
               </p>
             </div>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-[#98CE00]/10 rounded-full mb-4">
                 <Clock className="w-8 h-8 text-[#98CE00]" />
               </div>
-              <h3 className="text-xl mb-2">Flexible Hours</h3>
+              <h3 className="text-xl mb-2">Giờ làm việc linh hoạt</h3>
               <p className="text-gray-600">
-                Extended hours to accommodate your busy schedule.
+                Giờ mở cửa rộng để phù hợp với lịch trình bận rộn của bạn.
               </p>
             </div>
           </div>
@@ -116,7 +116,7 @@ export default function Home() {
       {/* Featured Services */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl text-center mb-12">Our Services</h2>
+          <h2 className="text-3xl md:text-4xl text-center mb-12">Dịch vụ</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {services.map((service) => (
               <div
@@ -135,7 +135,7 @@ export default function Home() {
                     to="/services"
                     className="text-[#98CE00] hover:text-[#98CE00] inline-flex items-center gap-1 transition-colors"
                   >
-                    Learn more
+                    Tìm hiểu thêm
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
@@ -147,7 +147,7 @@ export default function Home() {
               to="/services"
               className="bg-[#98CE00] hover:bg-[#98CE00] text-white px-8 py-3 rounded-lg inline-flex items-center gap-2 transition-colors"
             >
-              View All Services
+              Xem tất cả dịch vụ
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
@@ -157,7 +157,7 @@ export default function Home() {
       {/* Testimonials */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl text-center mb-12">What Our Clients Say</h2>
+          <h2 className="text-3xl md:text-4xl text-center mb-12">Ý kiến của khách hàng</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial) => (
               <div key={testimonial.name} className="bg-white p-6 rounded-lg shadow-md">
@@ -177,22 +177,22 @@ export default function Home() {
       {/* CTA Section */}
       <section className="py-16 bg-[#98CE00] text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl mb-4">Ready to Give Your Pet the Best Care?</h2>
+          <h2 className="text-3xl md:text-4xl mb-4">Bạn đã sẵn sàng chưa?</h2>
           <p className="text-xl mb-8 opacity-90">
-            Schedule an appointment or visit our store today!
+            Đặt lịch hẹn hoặc mua sắm sản phẩm cho thú cưng của bạn ngay hôm nay để trải nghiệm dịch vụ tuyệt vời tại PetRanger!
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
               to="/contact"
               className="bg-white text-[#98CE00] hover:bg-gray-100 px-8 py-3 rounded-lg transition-colors"
             >
-              Book Appointment
+              Đặt lịch hẹn
             </Link>
             <Link
               to="/products"
               className="bg-[#98CE00] hover:bg-[#98CE00] text-white px-8 py-3 rounded-lg transition-colors"
             >
-              Shop Products
+              Mua sắm sản phẩm
             </Link>
           </div>
         </div>

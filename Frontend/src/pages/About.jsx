@@ -6,22 +6,22 @@ export default function About() {
     {
       icon: Heart,
       title: 'Compassionate Care',
-      description: 'We treat every pet with the same love and attention we give our own pets.',
+      description: 'Chúng tôi chăm sóc thú cưng của bạn như thể chúng là của chính chúng tôi, với tình yêu và sự quan tâm tận tâm.',
     },
     {
       icon: Award,
       title: 'Excellence',
-      description: 'We maintain the highest standards in pet care services and products.',
+      description: 'Chúng tôi duy trì những tiêu chuẩn cao nhất trong dịch vụ và sản phẩm chăm sóc thú cưng.',
     },
     {
       icon: Users,
       title: 'Community',
-      description: 'We build lasting relationships with pet owners and their furry friends.',
+      description: 'Chúng tôi xây dựng những mối quan hệ lâu dài với các chủ sở hữu thú cưng và những người bạn lông của họ.',
     },
     {
       icon: Clock,
       title: 'Reliability',
-      description: 'You can count on us to be there when your pet needs care.',
+      description: 'Bạn có thể tin tưởng vào chúng tôi khi thú cưng của bạn cần được chăm sóc.',
     },
   ];
 
@@ -58,9 +58,9 @@ export default function About() {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-[#98CE00] to-[#98CE00] text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl mb-6">About PawfectCare</h1>
+          <h1 className="text-4xl md:text-5xl mb-6">About PetRanger</h1>
           <p className="text-xl max-w-3xl mx-auto opacity-90">
-            Your trusted partner in pet care for over a decade.
+            Người bạn đồng hành đáng tin cậy của bạn.
           </p>
         </div>
       </section>
@@ -70,16 +70,16 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl mb-6">Our Story</h2>
+              <h2 className="text-3xl md:text-4xl mb-6">Câu chuyện của chúng tôi</h2>
               <div className="space-y-4 text-gray-600">
                 <p>
-                  Founded in 2016, PawfectCare started with a simple mission: to provide the highest quality care for pets in our community. What began as a small grooming salon has grown into a full-service pet care center.
+                  Thành lập vào năm 2025, PetRanger bắt đầu như một cửa hàng thú cưng nhỏ với tầm nhìn mang lại dịch vụ chăm sóc thú cưng toàn diện và chất lượng cao cho cộng đồng. Với tình yêu sâu sắc dành cho động vật và cam kết về sự xuất sắc, chúng tôi đã phát triển thành một trung tâm chăm sóc thú cưng đáng tin cậy, cung cấp mọi thứ từ dịch vụ thú y, chăm sóc lông, đến đào tạo và cửa hàng cung cấp sản phẩm.
                 </p>
                 <p>
-                  Today, we offer comprehensive services including veterinary care, grooming, boarding, training, and a complete pet supply store. Our team of dedicated professionals shares a passion for animal welfare and excellence in pet care.
+                  Hiện tại, chúng tôi tự hào phục vụ hàng ngàn khách hàng hạnh phúc và chăm sóc cho hàng nghìn thú cưng mỗi năm. Đội ngũ của chúng tôi bao gồm các chuyên gia được chứng nhận và yêu thương động vật, những người cam kết mang lại trải nghiệm tốt nhất cho thú cưng của bạn.
                 </p>
                 <p>
-                  We believe that pets are family, and we're honored to be trusted with their care. Every day, we strive to exceed expectations and create positive experiences for both pets and their owners.
+                  Chúng tôi tin rằng mỗi thú cưng đều xứng đáng được chăm sóc như thành viên trong gia đình, và chúng tôi luôn nỗ lực để vượt qua mong đợi của khách hàng trong mọi dịch vụ và sản phẩm mà chúng tôi cung cấp.
                 </p>
               </div>
             </div>
@@ -111,7 +111,7 @@ export default function About() {
       {/* Values */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl text-center mb-12">Our Values</h2>
+          <h2 className="text-3xl md:text-4xl text-center mb-12">Giá trị của chúng tôi</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value) => {
               const Icon = value.icon;
@@ -132,7 +132,7 @@ export default function About() {
       {/* Team */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl text-center mb-12">Meet Our Team</h2>
+          <h2 className="text-3xl md:text-4xl text-center mb-12">Gặp gỡ đội ngũ của chúng tôi</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {team.map((member) => (
               <div key={member.name} className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -155,12 +155,12 @@ export default function About() {
       {/* CTA */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl mb-4">Join Our Community</h2>
+          <h2 className="text-3xl md:text-4xl mb-4">Tham gia cộng đồng của chúng tôi</h2>
           <p className="text-gray-600 text-lg mb-8">
-            Experience the PawfectCare difference. Visit us today or schedule an appointment.
+            Trải nghiệm dịch vụ ngay bây giờ.
           </p>
           <button className="bg-[#98CE00] hover:bg-[#98CE00] text-white px-8 py-3 rounded-lg transition-colors">
-            Get Started
+            Bắt đầu ngay
           </button>
         </div>
       </section>
