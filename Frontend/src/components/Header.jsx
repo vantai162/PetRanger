@@ -50,6 +50,12 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
+             <Link
+                to="/login"
+                className="ml-4 bg-[#6ccff6] text-white px-4 py-2 rounded-lg hover:bg-[#12B7F9] transition-colors"
+              >
+                Đăng nhập
+              </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -83,6 +89,13 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
+            <Link
+              to="/login"
+              onClick={() => setMobileMenuOpen(false)}
+              className="mt-2 block py-2 px-4 rounded-lg bg-[#6ccff6] text-white text-center hover:bg-[#12B7F9] transition-colors"
+            >
+              Đăng nhập
+            </Link>
           </div>
         )}
       </nav>

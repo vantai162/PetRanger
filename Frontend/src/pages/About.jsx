@@ -159,7 +159,7 @@ export default function About() {
           <p className="text-gray-600 text-lg mb-8">
             Trải nghiệm dịch vụ ngay bây giờ.
           </p>
-          <button className="bg-[#98CE00] hover:bg-[#98CE00] text-white px-8 py-3 rounded-lg transition-colors">
+          <button className="bg-[#98CE00] hover:bg-[#7BA800] text-white px-8 py-3 rounded-lg transition-colors">
             Bắt đầu ngay
           </button>
         </div>

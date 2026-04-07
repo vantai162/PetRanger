@@ -104,7 +104,7 @@ export default function Services() {
                     </div>
                     <div className="flex items-center gap-4">
                       <span className="text-2xl text-[#98CE00]">{service.price}</span>
-                      <button className="bg-[#98CE00] hover:bg-[#98CE00] text-white px-6 py-2 rounded-lg transition-colors">
+                      <button className="bg-[#98CE00] hover:bg-[#7BA800] text-white px-6 py-2 rounded-lg transition-colors">
                         Book Now
                       </button>
                     </div>
@@ -123,7 +123,7 @@ export default function Services() {
           <p className="text-gray-600 text-lg mb-8">
             Chúng tôi luôn sẵn sàng giúp đỡ bạn với bất kỳ câu hỏi nào về dịch vụ của chúng tôi hoặc để đặt lịch hẹn cho thú cưng của bạn. Hãy liên hệ với chúng tôi ngay hôm nay!
           </p>
-          <button className="bg-[#98CE00] hover:bg-[#98CE00] text-white px-8 py-3 rounded-lg transition-colors">
+          <button className="bg-[#98CE00] hover:bg-[#7BA800] text-white px-8 py-3 rounded-lg transition-colors">
             Contact Us
           </button>
         </div>

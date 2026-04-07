@@ -62,7 +62,7 @@ export default function Home() {
           <div className="flex flex-wrap gap-4">
             <Link
               to="/services"
-              className="bg-[#98CE00] hover:bg-[#98CE00] text-white px-8 py-3 rounded-lg inline-flex items-center gap-2 transition-colors"
+              className="bg-[#98CE00] hover:bg-[#7BA800] text-white px-8 py-3 rounded-lg inline-flex items-center gap-2 transition-colors"
             >
               Dịch vụ
               <ArrowRight className="w-5 h-5" />
@@ -133,7 +133,7 @@ export default function Home() {
                   <p className="text-gray-600 mb-4">{service.description}</p>
                   <Link
                     to="/services"
-                    className="text-[#98CE00] hover:text-[#98CE00] inline-flex items-center gap-1 transition-colors"
+                    className="text-[#98CE00] hover:text-[#7BA800] inline-flex items-center gap-1 transition-colors"
                   >
                     Tìm hiểu thêm
                     <ArrowRight className="w-4 h-4" />
@@ -145,7 +145,7 @@ export default function Home() {
           <div className="text-center mt-12">
             <Link
               to="/services"
-              className="bg-[#98CE00] hover:bg-[#98CE00] text-white px-8 py-3 rounded-lg inline-flex items-center gap-2 transition-colors"
+              className="bg-[#98CE00] hover:bg-[#7BA800] text-white px-8 py-3 rounded-lg inline-flex items-center gap-2 transition-colors"
             >
               Xem tất cả dịch vụ
               <ArrowRight className="w-5 h-5" />
@@ -190,7 +190,7 @@ export default function Home() {
             </Link>
             <Link
               to="/products"
-              className="bg-[#98CE00] hover:bg-[#98CE00] text-white px-8 py-3 rounded-lg transition-colors"
+              className="bg-[#7BA800] hover:bg-[#587506] text-white px-8 py-3 rounded-lg transition-colors"
             >
               Mua sắm sản phẩm
             </Link>

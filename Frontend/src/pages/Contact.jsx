@@ -199,7 +199,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   className="w-full text-white py-3 rounded-lg transition-colors"
-                  style={{ backgroundColor: '#98ce00' }}
+                  style={{ backgroundColor: '#98ce00', hoverBackgroundColor: '#7BA800' }}
                 >
                   Send Message
                 </button>

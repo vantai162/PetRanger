@@ -190,7 +190,7 @@ export default function Pets() {
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6ccff6] focus:border-transparent outline-none"
               >
                 <option value="all">Tất cả trạng thái</option>
                 <option value="available">Có sẵn</option>
