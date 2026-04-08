@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { PawPrint, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 
-export function Header() {
+export function Header({ currentUser }) {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -50,12 +50,18 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-             <Link
+            {currentUser ? (
+              <span className="ml-4 px-4 py-2 rounded-lg bg-gray-100 text-gray-700">
+                {currentUser.name}
+              </span>
+            ) : (
+              <Link
                 to="/login"
                 className="ml-4 bg-[#6ccff6] text-white px-4 py-2 rounded-lg hover:bg-[#12B7F9] transition-colors"
               >
                 Đăng nhập
               </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -89,13 +95,19 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-            <Link
-              to="/login"
-              onClick={() => setMobileMenuOpen(false)}
-              className="mt-2 block py-2 px-4 rounded-lg bg-[#6ccff6] text-white text-center hover:bg-[#12B7F9] transition-colors"
-            >
-              Đăng nhập
-            </Link>
+            {currentUser ? (
+              <div className="mt-2 py-2 px-4 rounded-lg bg-gray-100 text-gray-700 text-center">
+                {currentUser.name}
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="mt-2 block py-2 px-4 rounded-lg bg-[#6ccff6] text-white text-center hover:bg-[#12B7F9] transition-colors"
+              >
+                Đăng nhập
+              </Link>
+            )}
           </div>
         )}
       </nav>

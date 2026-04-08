@@ -1,2 +1,2 @@
-export const DB_NAME = 'PetRangerDB';
+export const DB_NAME = 'PetRanger';
 export const PORT = 3000;

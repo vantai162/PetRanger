@@ -9,11 +9,24 @@ import SignUp from './pages/SignUp';
 import ForgotPassword from './pages/ForgotPassword';
 import { Routes, Route } from 'react-router-dom';
 import { Header } from './components/Header';
+import { useState,useEffect } from 'react';
 
 function App() {
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        setCurrentUser(JSON.parse(storedUser));
+      } catch {
+        // nếu bị lỗi parse thì bỏ qua
+      }
+    }
+  }, []);
   return (
     <>
-      <Header />
+      <Header currentUser={currentUser} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/services" element={<Services />} />
@@ -21,7 +34,10 @@ function App() {
         <Route path="/products" element={<Products />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/pets" element={<Pets />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={<Login onLoginSuccess={setCurrentUser} />}
+        />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>

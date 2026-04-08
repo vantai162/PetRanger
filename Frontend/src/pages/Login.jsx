@@ -1,20 +1,41 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock, Eye, EyeOff, PawPrint,MailIcon } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
+import { loginUser } from '../services/authService';
 
-export default function Login() {
+export default function Login({ onLoginSuccess }) {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     rememberMe: false,
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    alert('Đăng nhập thành công!');
+    try {
+      const res = await loginUser({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      const user = {
+        id: res.userId,
+        name: res.name ?? formData.email,
+      };
+
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("user", JSON.stringify(user));
+      if (onLoginSuccess) {
+        onLoginSuccess(user);
+      }
+      // Redirect sang trang dashboard hoặc trang chủ
+      navigate('/');
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   const handleChange = (e) => {

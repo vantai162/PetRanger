@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, User, Phone, PawPrint, MailIcon } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
+import { registerUser } from '../services/authService';
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -15,7 +17,7 @@ export default function SignUp() {
     agreeToTerms: false,
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Validate passwords match
@@ -30,8 +32,21 @@ export default function SignUp() {
       return;
     }
 
-    // Handle sign up logic here
-    alert('Đăng ký thành công!');
+    try {
+      const res = await registerUser({
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+      });
+
+      console.log("Register success:", res);
+      //alert("Đăng ký thành công!");
+      // Có thể redirect sang /login hoặc lưu token nếu backend trả về
+      navigate('/login');
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   const handleChange = (e ) => {
