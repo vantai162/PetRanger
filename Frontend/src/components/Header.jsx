@@ -1,10 +1,11 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { PawPrint, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 
-export function Header({ currentUser }) {
+export function Header({ currentUser, onLogout }) {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const navItems = [
     { path: '/', label: 'Trang chủ' },
@@ -21,6 +22,14 @@ export function Header({ currentUser }) {
       return location.pathname === '/';
     }
     return location.pathname.startsWith(path);
+  };
+
+  const handleLogoutClick = () => {
+    if (onLogout) {
+      onLogout();
+    }
+    setMobileMenuOpen(false);
+    navigate('/login');
   };
 
   return (
@@ -51,9 +60,18 @@ export function Header({ currentUser }) {
               </Link>
             ))}
             {currentUser ? (
-              <span className="ml-4 px-4 py-2 rounded-lg bg-gray-100 text-gray-700">
-                {currentUser.name}
-              </span>
+              <div className="flex items-center gap-3 ml-4">
+                <span className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700">
+                  {currentUser.name}
+                </span>
+                <button
+                  type="button"
+                  onClick={handleLogoutClick}
+                  className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  Đăng xuất
+                </button>
+              </div>
             ) : (
               <Link
                 to="/login"
@@ -96,8 +114,17 @@ export function Header({ currentUser }) {
               </Link>
             ))}
             {currentUser ? (
-              <div className="mt-2 py-2 px-4 rounded-lg bg-gray-100 text-gray-700 text-center">
-                {currentUser.name}
+              <div className="mt-2 px-4">
+                <div className="py-2 rounded-lg bg-gray-100 text-gray-700 text-center mb-2">
+                  {currentUser.name}
+                </div>
+                <button
+                  type="button"
+                  onClick={handleLogoutClick}
+                  className="w-full py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  Đăng xuất
+                </button>
               </div>
             ) : (
               <Link

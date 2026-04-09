@@ -1,16 +1,23 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link,useNavigate } from 'react-router-dom';
 import { Mail, ArrowLeft, PawPrint, CheckCircle } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
+import {resetPassword} from "../services/authService";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle forgot password logic here
-    setIsSubmitted(true);
+    try {
+      const res = await resetPassword({ email });
+      // Sau khi gửi OTP thành công, chuyển sang màn hình nhập OTP
+      navigate(`/verify-otp?type=reset&email=${encodeURIComponent(email)}`);
+    } catch (error) {
+      console.error("Error occurred while resetting password:", error);
+      alert("Có lỗi xảy ra: " + error.message);
+    }
   };
 
   return (

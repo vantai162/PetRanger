@@ -7,12 +7,15 @@ import Pets from './pages/Pets';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import ForgotPassword from './pages/ForgotPassword';
-import { Routes, Route } from 'react-router-dom';
+import VerifyOTP from './pages/VerifyOtp';
+import ResetPassword from './pages/ResetPassword';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { Header } from './components/Header';
 import { useState,useEffect } from 'react';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -24,9 +27,16 @@ function App() {
       }
     }
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setCurrentUser(null);
+    navigate('/login');
+  };
   return (
     <>
-      <Header currentUser={currentUser} />
+      <Header currentUser={currentUser} onLogout={handleLogout} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/services" element={<Services />} />
@@ -40,6 +50,8 @@ function App() {
         />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/verify-otp" element={<VerifyOTP />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
     </>
   );
