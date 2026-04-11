@@ -1,81 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, Search, Filter, Calendar, MapPin, Heart, Info } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
+import { createPet, getPets, getPetById } from '../services/petService';
 
-class Pet {
-  id;
-  name;
-  species;
-  breed;
-  age;
-  gender;
-  color;
-  status;
-  arrivedDate;
-  description;
-  image;
-  price;
-}
+
 
 export default function Pets() {
-  const [pets, setPets] = useState([
-    {
-      id: '1',
-      name: 'Max',
-      species: 'Chó',
-      breed: 'Golden Retriever',
-      age: '6 tháng',
-      gender: 'Đực',
-      color: 'Vàng',
-      status: 'available',
-      arrivedDate: '2026-03-15',
-      description: 'Chú chó năng động, thân thiện và rất yêu trẻ em.',
-      image: 'https://images.unsplash.com/photo-1706745262357-5ecaa3154433?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjdXRlJTIwcHVwcHklMjBwb3J0cmFpdHxlbnwxfHx8fDE3NzU0NjA3MjF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      price: 500,
-    },
-    {
-      id: '2',
-      name: 'Luna',
-      species: 'Mèo',
-      breed: 'Mèo Ba Tư',
-      age: '4 tháng',
-      gender: 'Cái',
-      color: 'Trắng',
-      status: 'available',
-      arrivedDate: '2026-03-20',
-      description: 'Mèo nhỏ dễ thương, hiền lành và thích được vuốt ve.',
-      image: 'https://images.unsplash.com/photo-1707067867902-cdce11de5cac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZG9yYWJsZSUyMGtpdHRlbiUyMGZhY2V8ZW58MXx8fHwxNzc1NDYwNzIyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      price: 350,
-    },
-    {
-      id: '3',
-      name: 'Coco',
-      species: 'Thỏ',
-      breed: 'Holland Lop',
-      age: '3 tháng',
-      gender: 'Đực',
-      color: 'Nâu',
-      status: 'available',
-      arrivedDate: '2026-03-25',
-      description: 'Chú thỏ tai cụp đáng yêu, dễ nuôi và thích ăn rau.',
-      image: 'https://images.unsplash.com/photo-1622349817799-067c32295df2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXQlMjByYWJiaXQlMjBidW5ueXxlbnwxfHx8fDE3NzU0NjA3MjJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      price: 150,
-    },
-    {
-      id: '4',
-      name: 'Rio',
-      species: 'Chim',
-      breed: 'Vẹt Macaw',
-      age: '1 năm',
-      gender: 'Đực',
-      color: 'Đa màu',
-      status: 'reserved',
-      arrivedDate: '2026-03-01',
-      description: 'Chim vẹt thông minh, có thể học nói và rất trung thành.',
-      image: 'https://images.unsplash.com/photo-1695736338019-d9258f713e68?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2xvcmZ1bCUyMHBhcnJvdCUyMGJpcmR8ZW58MXx8fHwxNzc1NDE4ODg3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      price: 800,
-    },
-  ]);
+  const [pets, setPets] = useState([]);
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedPet, setSelectedPet] = useState(null);
@@ -92,31 +23,67 @@ export default function Pets() {
     status: 'available',
     arrivedDate: new Date().toISOString().split('T')[0],
     description: '',
-    image: 'https://images.unsplash.com/photo-1692145520080-3e72e0f3c4ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoYXBweSUyMGRvZyUyMHBldCUyMHN0b3JlfGVufDF8fHx8MTc3NTQ1Njg2NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    images: ['https://images.unsplash.com/photo-1692145520080-3e72e0f3c4ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoYXBweSUyMGRvZyUyMHBldCUyMHN0b3JlfGVufDF8fHx8MTc3NTQ1Njg2NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'],
     price: 0,
   });
 
-  const handleAddPet = (e ) => {
-    e.preventDefault();
-    const pet = {
-      ...newPet,
-      id: Date.now().toString(),
+  useEffect(() => {
+    const fetchPets = async () => {
+      try {
+        // Nếu backend có filter thì truyền object filter vào đây
+        const petsFromApi = await getPets({});
+        setPets(petsFromApi);
+      } catch (err) {
+        console.error("Get pets error:", err);
+        alert(err.message || "Lấy danh sách thú cưng thất bại");
+      }
     };
-    setPets([...pets, pet]);
-    setShowAddModal(false);
-    setNewPet({
-      name: '',
-      species: '',
-      breed: '',
-      age: '',
-      gender: '',
-      color: '',
-      status: 'available',
-      arrivedDate: new Date().toISOString().split('T')[0],
-      description: '',
-      image: 'https://images.unsplash.com/photo-1692145520080-3e72e0f3c4ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoYXBweSUyMGRvZyUyMHBldCUyMHN0b3JlfGVufDF8fHx8MTc3NTQ1Njg2NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      price: 0,
-    });
+
+    fetchPets();
+  }, []);
+
+  const handleAddPet = async (e ) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Bạn cần đăng nhập trước khi thêm thú cưng");
+        return;
+      }
+      let processedPet = { ...newPet };
+      if (processedPet.gender === 'Đực') {
+        processedPet.gender = 'male';
+      }
+      else if (processedPet.gender === 'Cái') {
+        processedPet.gender = 'female';
+      }
+      else{
+        processedPet.gender = 'binary';
+      }
+      // Parse age to number
+      processedPet.age = parseInt(processedPet.age) || 0;
+      const res = await createPet(processedPet, token);
+      const createdPet = res.pet;
+      setPets((prev) => [...prev, createdPet]);
+      setShowAddModal(false);
+      setNewPet({
+        name: '',
+        species: '',
+        breed: '',
+        age: '',
+        gender: '',
+        color: '',
+        status: 'available',
+        arrivedDate: new Date().toISOString().split('T')[0],
+        description: '',
+        image: 'https://images.unsplash.com/photo-1692145520080-3e72e0f3c4ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoYXBweSUyMGRvZyUyMHBldCUyMHN0b3JlfGVufDF8fHx8MTc3NTQ1Njg2NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+        price: 0,
+      });
+    } catch (error) {
+      console.error("Add pet error:", error);
+      alert(error.message);
+    }
+
   };
 
   const filteredPets = pets.filter(pet => {
@@ -126,6 +93,15 @@ export default function Pets() {
     const matchesFilter = filterStatus === 'all' || pet.status === filterStatus;
     return matchesSearch && matchesFilter;
   });
+
+  const getGenderText = (gender) => {
+    switch (gender) {
+      case 'male': return 'Đực';
+      case 'female': return 'Cái';
+      case 'binary': return 'Song tính';
+      default: return gender;
+    }
+  };
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -245,7 +221,7 @@ export default function Pets() {
                 >
                   <div className="relative">
                     <ImageWithFallback
-                      src={pet.image}
+                      src={pet.images?.[0] || newPet.image}
                       alt={pet.name}
                       className="w-full h-56 object-cover"
                     />
@@ -258,8 +234,8 @@ export default function Pets() {
                     <div className="space-y-1 text-sm text-gray-600 mb-3">
                       <p><span className="font-medium">Loài:</span> {pet.species}</p>
                       <p><span className="font-medium">Giống:</span> {pet.breed}</p>
-                      <p><span className="font-medium">Tuổi:</span> {pet.age}</p>
-                      <p><span className="font-medium">Giới tính:</span> {pet.gender}</p>
+                      <p><span className="font-medium">Tuổi:</span> {pet.age} tháng</p>
+                      <p><span className="font-medium">Giới tính:</span> {getGenderText(pet.gender)}</p>
                     </div>
                     {pet.price && pet.price > 0 && (
                       <div className="text-xl text-[#98ce00] mb-3">
@@ -351,7 +327,7 @@ export default function Pets() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tuổi *
+                      Tuổi (tháng) *
                     </label>
                     <input
                       type="text"
@@ -491,7 +467,7 @@ export default function Pets() {
           <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
             <div className="relative">
               <ImageWithFallback
-                src={selectedPet.image}
+                src={selectedPet.images?.[0] || selectedPet.image}
                 alt={selectedPet.name}
                 className="w-full h-80 object-cover"
               />
@@ -522,11 +498,11 @@ export default function Pets() {
               <div className="grid grid-cols-2 gap-4 mb-6">
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <p className="text-sm text-gray-600 mb-1">Tuổi</p>
-                  <p className="font-medium">{selectedPet.age}</p>
+                  <p className="font-medium">{selectedPet.age} tháng</p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <p className="text-sm text-gray-600 mb-1">Giới tính</p>
-                  <p className="font-medium">{selectedPet.gender}</p>
+                  <p className="font-medium">{getGenderText(selectedPet.gender)}</p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <p className="text-sm text-gray-600 mb-1">Màu sắc</p>
@@ -535,7 +511,7 @@ export default function Pets() {
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <p className="text-sm text-gray-600 mb-1">Ngày đến</p>
                   <p className="font-medium">
-                    {new Date(selectedPet.arrivedDate).toLocaleDateString('vi-VN')}
+                    {new Date(selectedPet.arrived_date).toLocaleDateString('vi-VN')}
                   </p>
                 </div>
               </div>
