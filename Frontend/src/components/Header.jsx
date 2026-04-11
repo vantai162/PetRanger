@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { PawPrint, Menu, X } from 'lucide-react';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 export function Header({ currentUser, onLogout }) {
   const location = useLocation();
@@ -47,17 +48,23 @@ export function Header({ currentUser, onLogout }) {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
-              <Link
+              <motion.div
                 key={item.path}
-                to={item.path}
-                className={`transition-colors ${
-                  isActive(item.path)
-                    ? 'text-[#6ccff6]'
-                    : 'text-gray-600 hover:text-[#6ccff6]'
-                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 300 }}
               >
-                {item.label}
-              </Link>
+                <Link
+                  to={item.path}
+                  className={`transition-colors ${
+                    isActive(item.path)
+                      ? 'text-[#6ccff6]'
+                      : 'text-gray-600 hover:text-[#6ccff6]'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              </motion.div>
             ))}
             {currentUser ? (
               <div className="flex items-center gap-3 ml-4">
@@ -96,22 +103,28 @@ export function Header({ currentUser, onLogout }) {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+          {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-100">
             {navItems.map((item) => (
-              <Link
+              <motion.div
                 key={item.path}
-                to={item.path}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`block py-2 px-4 rounded-lg transition-colors ${
-                  isActive(item.path)
-                    ? 'bg-[#6ccff6] text-white'
-                    : 'text-gray-600 hover:bg-gray-50'
-                }`}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 300 }}
               >
-                {item.label}
-              </Link>
+                <Link
+                  to={item.path}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block py-2 px-4 rounded-lg transition-colors ${
+                    isActive(item.path)
+                      ? 'bg-[#6ccff6] text-white'
+                      : 'text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              </motion.div>
             ))}
             {currentUser ? (
               <div className="mt-2 px-4">
