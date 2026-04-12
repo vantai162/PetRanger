@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ShoppingCart, Star } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
+import { getAllProducts, getProductById } from '../services/productService';
 
 export default function Products() {
   const [selectedCategory, setSelectedCategory] = useState('all');
-
+  const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isProductModalOpen, setIsProductModalOpen] = useState(false);
+  const [isLoadingProduct, setIsLoadingProduct] = useState(false);
+  
   const categories = [
     { id: 'all', name: 'Tất cả' },
     { id: 'food', name: 'Thực phẩm & Món ăn vặt' },
@@ -13,102 +18,34 @@ export default function Products() {
     { id: 'health', name: 'Sức khỏe & Làm đẹp' },
   ];
 
-  const products = [
-    {
-      id: 1,
-      name: 'Premium Dog Food',
-      category: 'food',
-      price: 49.99,
-      rating: 4.8,
-      reviews: 127,
-      image: 'https://images.unsplash.com/photo-1655210913315-e8147faf7600?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXQlMjBmb29kJTIwcHJvZHVjdHN8ZW58MXx8fHwxNzc1NDAzODUxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      description: 'High-quality nutrition for adult dogs',
-    },
-    {
-      id: 2,
-      name: 'Interactive Cat Toy',
-      category: 'toys',
-      price: 19.99,
-      rating: 4.9,
-      reviews: 203,
-      image: 'https://images.unsplash.com/photo-1770751857462-4954bffba866?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYXQlMjBwbGF5aW5nJTIwdG95c3xlbnwxfHx8fDE3NzU0NTY4NjV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      description: 'Keep your cat entertained for hours',
-    },
-    {
-      id: 3,
-      name: 'Pet Collar & Leash Set',
-      category: 'accessories',
-      price: 29.99,
-      rating: 4.7,
-      reviews: 89,
-      image: 'https://images.unsplash.com/photo-1535294435445-d7249524ef2e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXQlMjB0b3lzJTIwYWNjZXNzb3JpZXN8ZW58MXx8fHwxNzc1NDAzODUxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      description: 'Durable and stylish walking set',
-    },
-    {
-      id: 4,
-      name: 'Organic Cat Food',
-      category: 'food',
-      price: 39.99,
-      rating: 4.6,
-      reviews: 156,
-      image: 'https://images.unsplash.com/photo-1655210913315-e8147faf7600?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXQlMjBmb29kJTIwcHJvZHVjdHN8ZW58MXx8fHwxNzc1NDAzODUxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      description: 'Natural ingredients for feline health',
-    },
-    {
-      id: 5,
-      name: 'Dental Chew Treats',
-      category: 'health',
-      price: 24.99,
-      rating: 4.8,
-      reviews: 321,
-      image: 'https://images.unsplash.com/photo-1655210913315-e8147faf7600?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXQlMjBmb29kJTIwcHJvZHVjdHN8ZW58MXx8fHwxNzc1NDAzODUxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      description: 'Promotes dental health and fresh breath',
-    },
-    {
-      id: 6,
-      name: 'Plush Dog Toy Bundle',
-      category: 'toys',
-      price: 34.99,
-      rating: 4.9,
-      reviews: 178,
-      image: 'https://images.unsplash.com/photo-1535294435445-d7249524ef2e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXQlMjB0b3lzJTIwYWNjZXNzb3JpZXN8ZW58MXx8fHwxNzc1NDAzODUxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      description: 'Set of 5 soft and squeaky toys',
-    },
-    {
-      id: 7,
-      name: 'Pet Grooming Kit',
-      category: 'accessories',
-      price: 44.99,
-      rating: 4.7,
-      reviews: 94,
-      image: 'https://images.unsplash.com/photo-1535294435445-d7249524ef2e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXQlMjB0b3lzJTIwYWNjZXNzb3JpZXN8ZW58MXx8fHwxNzc1NDAzODUxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      description: 'Complete grooming tools set',
-    },
-    {
-      id: 8,
-      name: 'Vitamin Supplements',
-      category: 'health',
-      price: 32.99,
-      rating: 4.6,
-      reviews: 142,
-      image: 'https://images.unsplash.com/photo-1655210913315-e8147faf7600?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXQlMjBmb29kJTIwcHJvZHVjdHN8ZW58MXx8fHwxNzc1NDAzODUxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      description: 'Essential vitamins for overall health',
-    },
-    {
-      id: 9,
-      name: 'Training Treats',
-      category: 'food',
-      price: 16.99,
-      rating: 4.8,
-      reviews: 267,
-      image: 'https://images.unsplash.com/photo-1655210913315-e8147faf7600?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXQlMjBmb29kJTIwcHJvZHVjdHN8ZW58MXx8fHwxNzc1NDAzODUxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      description: 'Perfect for positive reinforcement',
-    },
-  ];
-
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getAllProducts();
+        console.log('Fetched products:', data);
+        setProducts(data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+    fetchProducts();
+  }, []);
   const filteredProducts = selectedCategory === 'all'
     ? products
     : products.filter(p => p.category === selectedCategory);
+
+  const handleProductClick = async (productId) => {
+    try {
+      setIsLoadingProduct(true);
+      const product = await getProductById(productId);
+      setSelectedProduct(product);
+      setIsProductModalOpen(true);
+    } catch (error) {
+      console.error('Error fetching product detail:', error);
+    } finally {
+      setIsLoadingProduct(false);
+    }
+  };
 
   return (
     <div>
@@ -148,7 +85,11 @@ export default function Products() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProducts.map((product) => (
-              <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+              <div
+                key={product._id}
+                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
+                onClick={() => handleProductClick(product._id)}
+              >
                 <ImageWithFallback
                   src={product.image}
                   alt={product.name}
@@ -157,6 +98,7 @@ export default function Products() {
                 <div className="p-6">
                   <h3 className="text-xl mb-2">{product.name}</h3>
                   <p className="text-gray-600 text-sm mb-3">{product.description}</p>
+                  <p className="text-gray-500 text-sm mb-4">Số lượng: {product.stock}</p>
                   <div className="flex items-center gap-2 mb-4">
                     <div className="flex items-center">
                       <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
@@ -177,6 +119,54 @@ export default function Products() {
           </div>
         </div>
       </section>
+
+      {isProductModalOpen && selectedProduct && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto">
+            <div className="relative">
+              <ImageWithFallback
+                src={selectedProduct.image}
+                alt={selectedProduct.name}
+                className="w-full h-80 object-cover"
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  setIsProductModalOpen(false);
+                  setSelectedProduct(null);
+                }}
+                className="absolute top-4 right-4 bg-white/90 hover:bg-white p-2 rounded-full text-gray-600"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="p-6">
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h2 className="text-2xl mb-2">{selectedProduct.name}</h2>
+                  <p className="text-gray-500 text-sm">{selectedProduct.category}</p>
+                  <p className="text-gray-500 text-sm">Số lượng: {selectedProduct.stock}</p>
+                </div>
+                <span className="text-2xl text-[#98CE00]">${selectedProduct.price}</span>
+              </div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="flex items-center">
+                  <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  <span className="ml-1 text-sm">{selectedProduct.rating}</span>
+                </div>
+                <span className="text-gray-400 text-sm">
+                  ({selectedProduct.reviews} reviews)
+                </span>
+              </div>
+              <p className="text-gray-700 mb-6">{selectedProduct.description}</p>
+              <button className="w-full bg-[#98CE00] hover:bg-[#8AB800] text-white py-3 rounded-lg inline-flex items-center justify-center gap-2 transition-colors">
+                <ShoppingCart className="w-4 h-4" />
+                Thêm vào giỏ
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Features Section */}
       <section className="py-16 bg-gray-50">

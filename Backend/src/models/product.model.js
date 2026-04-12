@@ -28,14 +28,14 @@ const productSchema = new Schema({
         type: String,
         required: true
     },
-    images:       [{ type: String }],
+    image:     { type: String },
     rating: {
         type: Number,
         default: 0,
         min: 0,
         max: 5
     },
-    numReviews: {
+    reviews: {
         type: Number,
         default: 0,
         min: 0

@@ -54,7 +54,7 @@ export default function Login({ onLoginSuccess }) {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 justify-center mb-8">
             <PawPrint className="w-10 h-10 text-[#98CE00]" />
-            <span className="text-2xl font-semibold text-gray-900">PawfectCare</span>
+            <span className="text-2xl font-semibold text-gray-900">PetRanger</span>
           </Link>
 
           {/* Welcome Text */}
