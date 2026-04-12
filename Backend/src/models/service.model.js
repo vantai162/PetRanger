@@ -1,7 +1,7 @@
 import mongoose, {Schema} from "mongoose";
 
 const serviceSchema = new Schema({
-    name: {
+    title: {
         type: String,
         required: true,
         trim: true
@@ -25,7 +25,8 @@ const serviceSchema = new Schema({
         enum: ['grooming', 'training', 'boarding', 'vet'],
         required: true
     },
-    images:       [{ type: String }]
+    images:       [{ type: String }],
+    features:    [{ type: String }]
 }, { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } });
 
 serviceSchema.index({ type: 1});
