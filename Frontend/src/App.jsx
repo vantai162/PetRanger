@@ -9,6 +9,7 @@ import SignUp from './pages/SignUp';
 import ForgotPassword from './pages/ForgotPassword';
 import VerifyOTP from './pages/VerifyOtp';
 import ResetPassword from './pages/ResetPassword';
+import Orders from './pages/Orders';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
 import { useState,useEffect } from 'react';
@@ -117,6 +118,17 @@ function App() {
               transition={pageTransition}
             >
               <Pets />
+            </motion.div>
+          } />
+          <Route path="/orders" element={
+            <motion.div
+              initial="initial"
+              animate="in"
+              exit="out"
+              variants={pageVariants}
+              transition={pageTransition}
+            >
+              <Orders />
             </motion.div>
           } />
           <Route

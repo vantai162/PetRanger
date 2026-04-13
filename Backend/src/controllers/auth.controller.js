@@ -54,8 +54,19 @@ const loginUser = async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({message: "Invalid email or password"});
         }
+
+        // Tìm customer tương ứng với user để trả về customerId cho frontend
+        const customer = await Customer.findOne({ user_id: user._id });
+        const customerId = customer ? customer._id : null;
+
         const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {expiresIn: "1h"});
-        res.status(200).json({message: "Login successful", token, userId: user._id, name: user.name});
+        res.status(200).json({
+            message: "Login successful",
+            token,
+            userId: user._id,
+            customerId,
+            name: user.name
+        });
     } catch (error) {
         console.error("Login error:", error);
         res.status(500).json({message: "Server error"});

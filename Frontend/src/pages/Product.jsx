@@ -10,6 +10,11 @@ export default function Products() {
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [isLoadingProduct, setIsLoadingProduct] = useState(false);
   
+  const formatCurrencyVND = (value) => {
+    if (typeof value !== 'number') return value;
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+  };
+  
   const categories = [
     { id: 'all', name: 'Tất cả' },
     { id: 'food', name: 'Thực phẩm & Món ăn vặt' },
@@ -107,7 +112,7 @@ export default function Products() {
                     <span className="text-gray-400 text-sm">({product.reviews} reviews)</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-2xl text-[#98CE00]">${product.price}</span>
+                    <span className="text-2xl text-[#98CE00]">{formatCurrencyVND(product.price)}</span>
                     <button className="bg-[#98CE00] hover:bg-[#8AB800] text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 transition-colors">
                       <ShoppingCart className="w-4 h-4" />
                       Thêm vào giỏ
@@ -147,7 +152,7 @@ export default function Products() {
                   <p className="text-gray-500 text-sm">{selectedProduct.category}</p>
                   <p className="text-gray-500 text-sm">Số lượng: {selectedProduct.stock}</p>
                 </div>
-                <span className="text-2xl text-[#98CE00]">${selectedProduct.price}</span>
+                <span className="text-2xl text-[#98CE00]">{formatCurrencyVND(selectedProduct.price)}</span>
               </div>
               <div className="flex items-center gap-2 mb-4">
                 <div className="flex items-center">

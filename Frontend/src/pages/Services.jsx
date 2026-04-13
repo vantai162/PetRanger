@@ -63,7 +63,7 @@ export default function Services() {
                     <h2 className="text-3xl mb-4">{service.title}</h2>
                     <p className="text-gray-600 mb-6">{service.description}</p>
                     <div className="mb-6">
-                      <h3 className="font-semibold mb-3">What's Included:</h3>
+                      <h3 className="font-semibold mb-3">Bao gồm:</h3>
                       <ul className="space-y-2">
                         {service.features.map((feature) => (
                           <li key={feature} className="flex items-center gap-2">
@@ -74,9 +74,9 @@ export default function Services() {
                       </ul>
                     </div>
                     <div className="flex items-center gap-4">
-                      <span className="text-2xl text-[#98CE00]">From ${service.price.toFixed(2)}</span>
+                      <span className="text-2xl text-[#98CE00]">Từ {service.price}.000 VNĐ</span>
                       <button className="bg-[#98CE00] hover:bg-[#7BA800] text-white px-6 py-2 rounded-lg transition-colors">
-                        Book Now
+                        Đặt ngay
                       </button>
                     </div>
                   </div>
@@ -95,7 +95,7 @@ export default function Services() {
             Chúng tôi luôn sẵn sàng giúp đỡ bạn với bất kỳ câu hỏi nào về dịch vụ của chúng tôi hoặc để đặt lịch hẹn cho thú cưng của bạn. Hãy liên hệ với chúng tôi ngay hôm nay!
           </p>
           <button className="bg-[#98CE00] hover:bg-[#7BA800] text-white px-8 py-3 rounded-lg transition-colors">
-            Contact Us
+            Liên hệ với chúng tôi
           </button>
         </div>
       </section>

@@ -67,17 +67,29 @@ export function Header({ currentUser, onLogout }) {
               </motion.div>
             ))}
             {currentUser ? (
-              <div className="flex items-center gap-3 ml-4">
-                <span className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700">
-                  {currentUser.name}
-                </span>
+              <div className="relative ml-4 group">
                 <button
                   type="button"
-                  onClick={handleLogoutClick}
-                  className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="px-4 py-2 rounded-lg bg-[#6ccff6] text-white flex items-center gap-2 cursor-pointer group-hover:bg-[#12B7F9] transition-colors"
                 >
-                  Đăng xuất
+                  <span>{currentUser.name}</span>
                 </button>
+                <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
+                  <button
+                    type="button"
+                    onClick={() => navigate('/orders')}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                  >
+                    Đơn hàng
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleLogoutClick}
+                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 border-t border-gray-100"
+                  >
+                    Đăng xuất
+                  </button>
+                </div>
               </div>
             ) : (
               <Link

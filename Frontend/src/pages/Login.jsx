@@ -23,6 +23,7 @@ export default function Login({ onLoginSuccess }) {
 
       const user = {
         id: res.userId,
+        customerId: res.customerId,
         name: res.name ?? formData.email,
       };
 

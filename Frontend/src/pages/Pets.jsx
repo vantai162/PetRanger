@@ -27,6 +27,11 @@ export default function Pets() {
     price: 0,
   });
 
+  const formatCurrencyVND = (value) => {
+    if (typeof value !== 'number') return value;
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+  };
+
   useEffect(() => {
     const fetchPets = async () => {
       try {
@@ -115,7 +120,7 @@ export default function Pets() {
   const getStatusText = (status) => {
     switch (status) {
       case 'available': return 'Có sẵn';
-      case 'adopted': return 'Đã nhận nuôi';
+      case 'sold': return 'Đã nhận nuôi';
       case 'reserved': return 'Đã đặt trước';
       default: return status;
     }
@@ -171,7 +176,7 @@ export default function Pets() {
                 <option value="all">Tất cả trạng thái</option>
                 <option value="available">Có sẵn</option>
                 <option value="reserved">Đã đặt trước</option>
-                <option value="adopted">Đã nhận nuôi</option>
+                <option value="sold">Đã nhận nuôi</option>
               </select>
             </div>
           </div>
@@ -196,7 +201,7 @@ export default function Pets() {
             </div>
             <div className="bg-white p-4 rounded-lg">
               <div className="text-2xl text-gray-600 mb-1">
-                {pets.filter(p => p.status === 'adopted').length}
+                {pets.filter(p => p.status === 'sold').length}
               </div>
               <div className="text-sm text-gray-600">Đã nhận nuôi</div>
             </div>
@@ -239,7 +244,7 @@ export default function Pets() {
                     </div>
                     {pet.price && pet.price > 0 && (
                       <div className="text-xl text-[#98ce00] mb-3">
-                        ${pet.price}
+                        {formatCurrencyVND(pet.price)}
                       </div>
                     )}
                     <button
@@ -384,7 +389,7 @@ export default function Pets() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Giá ($)
+                      Giá (VNĐ)
                     </label>
                     <input
                       type="number"
@@ -408,7 +413,7 @@ export default function Pets() {
                     >
                       <option value="available">Có sẵn</option>
                       <option value="reserved">Đã đặt trước</option>
-                      <option value="adopted">Đã nhận nuôi</option>
+                      <option value="sold">Đã nhận nuôi</option>
                     </select>
                   </div>
 
@@ -490,7 +495,7 @@ export default function Pets() {
                 </div>
                 {selectedPet.price && selectedPet.price > 0 && (
                   <div className="text-3xl text-[#98ce00]">
-                    ${selectedPet.price}
+                    {formatCurrencyVND(selectedPet.price)}
                   </div>
                 )}
               </div>
