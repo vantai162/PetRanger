@@ -128,30 +128,7 @@ JWT_SECRET=your_secret_key
 
 ---
 
-## 📡 API Overview
 
-### Products
-
-* `GET /api/products`
-* `GET /api/products/:id`
-* `POST /api/products`
-
-### Services
-
-* `GET /api/services`
-* `POST /api/bookings`
-
-### Pets
-
-* `GET /api/pets`
-* `POST /api/pets`
-
-### Adoption
-
-* `GET /api/adoptions`
-* `POST /api/adoptions`
-
----
 
 ## 🧠 Future Improvements
 
