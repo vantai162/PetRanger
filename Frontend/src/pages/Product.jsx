@@ -101,7 +101,8 @@ export default function Products() {
                   className="w-full h-64 object-cover"
                 />
                 <div className="p-6">
-                  <h3 className="text-xl mb-2">{product.name}</h3>
+                  <h3 className="text-xl mb-1">{product.name}</h3>
+                  <p className="text-gray-500 text-xs mb-2">Hãng: {product.brand}</p>
                   <p className="text-gray-600 text-sm mb-3">{product.description}</p>
                   <p className="text-gray-500 text-sm mb-4">Số lượng: {product.stock}</p>
                   <div className="flex items-center gap-2 mb-4">
@@ -150,6 +151,7 @@ export default function Products() {
                 <div>
                   <h2 className="text-2xl mb-2">{selectedProduct.name}</h2>
                   <p className="text-gray-500 text-sm">{selectedProduct.category}</p>
+                  <p className="text-gray-500 text-sm">Hãng: {selectedProduct.brand}</p>
                   <p className="text-gray-500 text-sm">Số lượng: {selectedProduct.stock}</p>
                 </div>
                 <span className="text-2xl text-[#98CE00]">{formatCurrencyVND(selectedProduct.price)}</span>
