@@ -10,6 +10,32 @@ export default function Pets() {
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedPet, setSelectedPet] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showAdoptionModal, setShowAdoptionModal] = useState(false);
+  const [adoptionStep, setAdoptionStep] = useState(1);
+  const [showAdoptionSuccess, setShowAdoptionSuccess] = useState(false);
+  const [adoptionForm, setAdoptionForm] = useState({
+    fullName: '',
+    phone: '',
+    email: '',
+    address: '',
+    livingType: '',
+    allowPets: '',
+    livingSpace: '',
+    hasYard: '',
+    hasExperience: '',
+    hasOtherPets: '',
+    dailyTime: '',
+    oftenAway: '',
+    willingFood: '',
+    willingMedical: '',
+    willingVaccine: '',
+    reason: '',
+    agreeNeuter: '',
+    agreeVaccinate: '',
+    longTermCommitment: '',
+    cannotKeepPlan: '',
+  });
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
 
@@ -46,6 +72,37 @@ export default function Pets() {
 
     fetchPets();
   }, []);
+
+  useEffect(() => {
+    // Khi chọn thú cưng khác, reset slide ảnh về hình đầu tiên
+    setCurrentImageIndex(0);
+  }, [selectedPet]);
+
+  const resetAdoptionForm = () => {
+    setAdoptionForm({
+      fullName: '',
+      phone: '',
+      email: '',
+      address: '',
+      livingType: '',
+      allowPets: '',
+      livingSpace: '',
+      hasYard: '',
+      hasExperience: '',
+      hasOtherPets: '',
+      dailyTime: '',
+      oftenAway: '',
+      willingFood: '',
+      willingMedical: '',
+      willingVaccine: '',
+      reason: '',
+      agreeNeuter: '',
+      agreeVaccinate: '',
+      longTermCommitment: '',
+      cannotKeepPlan: '',
+    });
+    setAdoptionStep(1);
+  };
 
   const handleAddPet = async (e ) => {
     e.preventDefault();
@@ -124,6 +181,21 @@ export default function Pets() {
       case 'reserved': return 'Đã đặt trước';
       default: return status;
     }
+  };
+
+  const selectedPetImages = selectedPet
+    ? (Array.isArray(selectedPet.images) && selectedPet.images.length > 0
+        ? selectedPet.images
+        : selectedPet.image
+          ? [selectedPet.image]
+          : [])
+    : [];
+
+  const handleSubmitAdoption = (e) => {
+    e.preventDefault();
+    setShowAdoptionModal(false);
+    resetAdoptionForm();
+    setShowAdoptionSuccess(true);
   };
 
   return (
@@ -472,10 +544,48 @@ export default function Pets() {
           <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
             <div className="relative">
               <ImageWithFallback
-                src={selectedPet.images?.[0] || selectedPet.image}
+                src={selectedPetImages[currentImageIndex] || selectedPet.image}
                 alt={selectedPet.name}
                 className="w-full h-80 object-cover"
               />
+              {selectedPetImages.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setCurrentImageIndex((prev) =>
+                        (prev - 1 + selectedPetImages.length) % selectedPetImages.length
+                      )
+                    }
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-2 rounded-full"
+                  >
+                    &#8249;
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setCurrentImageIndex((prev) =>
+                        (prev + 1) % selectedPetImages.length
+                      )
+                    }
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-2 rounded-full"
+                  >
+                    &#8250;
+                  </button>
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                    {selectedPetImages.map((_, index) => (
+                      <button
+                        key={index}
+                        type="button"
+                        onClick={() => setCurrentImageIndex(index)}
+                        className={`w-2.5 h-2.5 rounded-full border border-white ${
+                          index === currentImageIndex ? 'bg-white' : 'bg-white/40'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
               <button
                 onClick={() => setSelectedPet(null)}
                 className="absolute top-4 right-4 bg-white/90 hover:bg-white p-2 rounded-full"
@@ -528,16 +638,387 @@ export default function Pets() {
 
               {selectedPet.status === 'available' && (
                 <div className="flex gap-4">
-                  <button className="flex-1 bg-[#98ce00] hover:opacity-90 text-white py-3 rounded-lg transition-colors inline-flex items-center justify-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowAdoptionModal(true)}
+                    className="flex-1 bg-[#98ce00] hover:opacity-90 text-white py-3 rounded-lg transition-colors inline-flex items-center justify-center gap-2"
+                  >
                     <Heart className="w-5 h-5" />
                     Nhận nuôi
-                  </button>
-                  <button className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-lg transition-colors">
-                    Đặt trước
                   </button>
                 </div>
               )}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Adoption Form Modal */}
+      {showAdoptionModal && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-60 p-4">
+          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-4">
+                <div>
+                  <h2 className="text-2xl mb-1">Đơn đăng ký nhận nuôi</h2>
+                  {selectedPet && (
+                    <p className="text-sm text-gray-600">Cho thú cưng: <span className="font-medium">{selectedPet.name}</span></p>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowAdoptionModal(false);
+                    resetAdoptionForm();
+                  }}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <Plus className="w-6 h-6 rotate-45" />
+                </button>
+              </div>
+
+              <div className="flex items-center gap-2 mb-4 text-sm">
+                <span className={adoptionStep === 1 ? 'font-semibold text-[#98ce00]' : 'text-gray-500'}>Bước 1</span>
+                <span className="text-gray-400">/</span>
+                <span className={adoptionStep === 2 ? 'font-semibold text-[#98ce00]' : 'text-gray-500'}>Bước 2</span>
+                <span className="text-gray-400">/</span>
+                <span className={adoptionStep === 3 ? 'font-semibold text-[#98ce00]' : 'text-gray-500'}>Bước 3</span>
+              </div>
+
+              <form onSubmit={handleSubmitAdoption} className="space-y-4">
+                {adoptionStep === 1 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">1. Thông tin cá nhân cơ bản</h3>
+                    <p className="text-sm text-gray-600">Để định danh và liên hệ với người nhận nuôi.</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Họ và tên *</label>
+                        <input
+                          type="text"
+                          required
+                          value={adoptionForm.fullName}
+                          onChange={(e) => setAdoptionForm({ ...adoptionForm, fullName: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Số điện thoại *</label>
+                        <input
+                          type="tel"
+                          required
+                          value={adoptionForm.phone}
+                          onChange={(e) => setAdoptionForm({ ...adoptionForm, phone: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                        <input
+                          type="email"
+                          required
+                          value={adoptionForm.email}
+                          onChange={(e) => setAdoptionForm({ ...adoptionForm, email: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none"
+                        />
+                      </div>
+                      <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Địa chỉ hiện tại *</label>
+                        <input
+                          type="text"
+                          required
+                          value={adoptionForm.address}
+                          onChange={(e) => setAdoptionForm({ ...adoptionForm, address: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {adoptionStep === 2 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">2. Điều kiện nuôi</h3>
+                    <p className="text-sm text-gray-600">Giúp đánh giá môi trường sống và khả năng chăm sóc thú cưng.</p>
+
+                    <div className="space-y-3 mt-2">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Môi trường sống *</label>
+                        <select
+                          required
+                          value={adoptionForm.livingType}
+                          onChange={(e) => setAdoptionForm({ ...adoptionForm, livingType: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none"
+                        >
+                          <option value="">Chọn loại nơi ở</option>
+                          <option value="house">Nhà riêng</option>
+                          <option value="apartment">Chung cư</option>
+                          <option value="rented">Thuê trọ</option>
+                        </select>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Nơi ở có cho phép nuôi thú không? *</label>
+                          <select
+                            required
+                            value={adoptionForm.allowPets}
+                            onChange={(e) => setAdoptionForm({ ...adoptionForm, allowPets: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none"
+                          >
+                            <option value="">Chọn</option>
+                            <option value="yes">Có</option>
+                            <option value="no">Không</option>
+                            <option value="unknown">Chưa rõ</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Diện tích sống *</label>
+                          <select
+                            required
+                            value={adoptionForm.livingSpace}
+                            onChange={(e) => setAdoptionForm({ ...adoptionForm, livingSpace: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none"
+                          >
+                            <option value="">Chọn</option>
+                            <option value="small">Nhỏ</option>
+                            <option value="medium">Vừa</option>
+                            <option value="large">Lớn</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Có sân / không gian ngoài trời không? *</label>
+                          <select
+                            required
+                            value={adoptionForm.hasYard}
+                            onChange={(e) => setAdoptionForm({ ...adoptionForm, hasYard: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none"
+                          >
+                            <option value="">Chọn</option>
+                            <option value="yes">Có</option>
+                            <option value="no">Không</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Bạn đã từng nuôi thú chưa? *</label>
+                          <select
+                            required
+                            value={adoptionForm.hasExperience}
+                            onChange={(e) => setAdoptionForm({ ...adoptionForm, hasExperience: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none"
+                          >
+                            <option value="">Chọn</option>
+                            <option value="yes">Đã từng</option>
+                            <option value="no">Chưa từng</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Hiện đang có thú cưng khác không? *</label>
+                          <select
+                            required
+                            value={adoptionForm.hasOtherPets}
+                            onChange={(e) => setAdoptionForm({ ...adoptionForm, hasOtherPets: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none"
+                          >
+                            <option value="">Chọn</option>
+                            <option value="yes">Có</option>
+                            <option value="no">Không</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Bạn có thể dành bao nhiêu thời gian mỗi ngày?</label>
+                          <input
+                            type="text"
+                            required
+                            value={adoptionForm.dailyTime}
+                            onChange={(e) => setAdoptionForm({ ...adoptionForm, dailyTime: e.target.value })}
+                            placeholder="VD: 2-3 giờ mỗi ngày"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Bạn có thường xuyên đi công tác / vắng nhà không? *</label>
+                          <select
+                            required
+                            value={adoptionForm.oftenAway}
+                            onChange={(e) => setAdoptionForm({ ...adoptionForm, oftenAway: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none"
+                          >
+                            <option value="">Chọn</option>
+                            <option value="rarely">Hiếm khi</option>
+                            <option value="sometimes">Thỉnh thoảng</option>
+                            <option value="often">Thường xuyên</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Bạn có sẵn sàng chi trả cho thức ăn, khám bệnh, vaccine? *</label>
+                          <select
+                            required
+                            value={adoptionForm.willingFood}
+                            onChange={(e) => setAdoptionForm({ ...adoptionForm, willingFood: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none"
+                          >
+                            <option value="">Chọn</option>
+                            <option value="yes">Có</option>
+                            <option value="no">Không</option>
+                            <option value="consider">Cân nhắc</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {adoptionStep === 3 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">3. Mức độ cam kết</h3>
+                    <p className="text-sm text-gray-600">Giúp đảm bảo thú cưng được chăm sóc lâu dài và có trách nhiệm.</p>
+
+                    <div className="space-y-3 mt-2">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Bạn nhận nuôi vì lý do gì? *</label>
+                        <textarea
+                          required
+                          rows={3}
+                          value={adoptionForm.reason}
+                          onChange={(e) => setAdoptionForm({ ...adoptionForm, reason: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none resize-none"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Bạn có đồng ý triệt sản (nếu cần)? *</label>
+                          <select
+                            required
+                            value={adoptionForm.agreeNeuter}
+                            onChange={(e) => setAdoptionForm({ ...adoptionForm, agreeNeuter: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none"
+                          >
+                            <option value="">Chọn</option>
+                            <option value="yes">Đồng ý</option>
+                            <option value="no">Không đồng ý</option>
+                            <option value="consider">Cân nhắc</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Bạn có đồng ý tiêm phòng đầy đủ? *</label>
+                          <select
+                            required
+                            value={adoptionForm.agreeVaccinate}
+                            onChange={(e) => setAdoptionForm({ ...adoptionForm, agreeVaccinate: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none"
+                          >
+                            <option value="">Chọn</option>
+                            <option value="yes">Đồng ý</option>
+                            <option value="no">Không đồng ý</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Bạn có sẵn sàng chăm sóc lâu dài (5–10 năm)? *</label>
+                          <select
+                            required
+                            value={adoptionForm.longTermCommitment}
+                            onChange={(e) => setAdoptionForm({ ...adoptionForm, longTermCommitment: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none"
+                          >
+                            <option value="">Chọn</option>
+                            <option value="yes">Có</option>
+                            <option value="no">Không</option>
+                            <option value="unsure">Chưa chắc</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Nếu không thể nuôi nữa, bạn sẽ làm gì? *</label>
+                          <textarea
+                            required
+                            rows={3}
+                            value={adoptionForm.cannotKeepPlan}
+                            onChange={(e) => setAdoptionForm({ ...adoptionForm, cannotKeepPlan: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#98ce00] focus:border-transparent outline-none resize-none"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex justify-between pt-4 mt-2 border-t border-gray-100">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowAdoptionModal(false);
+                      resetAdoptionForm();
+                    }}
+                    className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm"
+                  >
+                    Hủy
+                  </button>
+                  <div className="flex gap-3">
+                    {adoptionStep > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => setAdoptionStep((prev) => Math.max(1, prev - 1))}
+                        className="px-4 py-2 rounded-lg border border-gray-300 text-sm text-gray-700 hover:bg-gray-50"
+                      >
+                        Quay lại
+                      </button>
+                    )}
+                    {adoptionStep < 3 ? (
+                      <button
+                        type="button"
+                        onClick={() => setAdoptionStep((prev) => Math.min(3, prev + 1))}
+                        className="px-4 py-2 rounded-lg bg-[#98ce00] text-white text-sm hover:bg-[#7BA800]"
+                      >
+                        Tiếp tục
+                      </button>
+                    ) : (
+                      <button
+                        type="submit"
+                        className="px-4 py-2 rounded-lg bg-[#98ce00] text-white text-sm hover:bg-[#7BA800]"
+                      >
+                        Gửi thông tin
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Adoption Success Toast */}
+      {showAdoptionSuccess && (
+        <div className="fixed bottom-6 right-6 z-[70]">
+          <div className="bg-white border border-green-100 shadow-xl rounded-lg px-5 py-4 max-w-sm flex items-start gap-3">
+            <div className="mt-1 h-8 w-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-xl">
+              ✓
+            </div>
+            <div className="flex-1">
+              <p className="font-semibold text-gray-900 mb-1">Gửi thông tin thành công</p>
+              <p className="text-sm text-gray-600">
+                Cảm ơn bạn đã đăng ký nhận nuôi. Chúng tôi sẽ liên hệ lại trong thời gian sớm nhất.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowAdoptionSuccess(false)}
+              className="ml-2 text-gray-400 hover:text-gray-600"
+            >
+              <Plus className="w-5 h-5 rotate-45" />
+            </button>
           </div>
         </div>
       )}

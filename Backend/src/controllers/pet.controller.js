@@ -19,7 +19,7 @@ export const createPet = async (req, res) => {
             description,
             images: imageUrl ? [imageUrl] : [],  // dùng field images trong model,
             vaccinations: [],
-            status : 'available',
+            status : 'pending',
             arrived_date: arrivedDate ? new Date(arrivedDate) : new Date()
         });
         res.status(201).json({message: "Pet created successfully", pet: newPet});

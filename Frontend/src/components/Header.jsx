@@ -1,11 +1,12 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { PawPrint, Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { PawPrint, Menu, X, ShoppingCart } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 export function Header({ currentUser, onLogout }) {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
 
   const navItems = [
@@ -32,6 +33,29 @@ export function Header({ currentUser, onLogout }) {
     setMobileMenuOpen(false);
     navigate('/login');
   };
+
+  useEffect(() => {
+    const getCartCount = () => {
+      try {
+        const raw = localStorage.getItem('cartItems');
+        if (!raw) return 0;
+        const items = JSON.parse(raw);
+        if (!Array.isArray(items)) return 0;
+        return items.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      } catch {
+        return 0;
+      }
+    };
+
+    setCartCount(getCartCount());
+
+    const handleCartUpdated = () => {
+      setCartCount(getCartCount());
+    };
+
+    window.addEventListener('cartUpdated', handleCartUpdated);
+    return () => window.removeEventListener('cartUpdated', handleCartUpdated);
+  }, []);
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -66,6 +90,21 @@ export function Header({ currentUser, onLogout }) {
                 </Link>
               </motion.div>
             ))}
+            {/* Cart Icon (only when logged in) */}
+            {currentUser && (
+              <button
+                type="button"
+                onClick={() => navigate('/products')}
+                className="relative flex items-center justify-center text-gray-600 hover:text-[#6ccff6] transition-colors"
+              >
+                <ShoppingCart className="w-6 h-6" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-3 min-w-[18px] h-[18px] px-1 rounded-full bg-red-500 text-white text-[11px] flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+              </button>
+            )}
             {currentUser ? (
               <div className="relative ml-4 group">
                 <button

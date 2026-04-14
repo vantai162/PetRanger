@@ -39,6 +39,29 @@ export default function Products() {
     ? products
     : products.filter(p => p.category === selectedCategory);
 
+  const addToCart = (product) => {
+    try {
+      const raw = localStorage.getItem('cartItems');
+      const items = raw ? JSON.parse(raw) : [];
+      const existingIndex = items.findIndex((i) => i.productId === product._id);
+      if (existingIndex !== -1) {
+        items[existingIndex].quantity = (items[existingIndex].quantity || 1) + 1;
+      } else {
+        items.push({
+          productId: product._id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          quantity: 1,
+        });
+      }
+      localStorage.setItem('cartItems', JSON.stringify(items));
+      window.dispatchEvent(new Event('cartUpdated'));
+    } catch (err) {
+      console.error('Error updating cart:', err);
+    }
+  };
+
   const handleProductClick = async (productId) => {
     try {
       setIsLoadingProduct(true);
@@ -114,7 +137,14 @@ export default function Products() {
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-2xl text-[#98CE00]">{formatCurrencyVND(product.price)}</span>
-                    <button className="bg-[#98CE00] hover:bg-[#8AB800] text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 transition-colors">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addToCart(product);
+                      }}
+                      className="bg-[#98CE00] hover:bg-[#8AB800] text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 transition-colors"
+                    >
                       <ShoppingCart className="w-4 h-4" />
                       Thêm vào giỏ
                     </button>
@@ -166,7 +196,11 @@ export default function Products() {
                 </span>
               </div>
               <p className="text-gray-700 mb-6">{selectedProduct.description}</p>
-              <button className="w-full bg-[#98CE00] hover:bg-[#8AB800] text-white py-3 rounded-lg inline-flex items-center justify-center gap-2 transition-colors">
+              <button
+                type="button"
+                onClick={() => addToCart(selectedProduct)}
+                className="w-full bg-[#98CE00] hover:bg-[#8AB800] text-white py-3 rounded-lg inline-flex items-center justify-center gap-2 transition-colors"
+              >
                 <ShoppingCart className="w-4 h-4" />
                 Thêm vào giỏ
               </button>

@@ -53,8 +53,8 @@ const petSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['available', 'sold', 'pending'],
-        default: 'available'
+        enum: ['available', 'sold', 'pending','reserved'],
+        default: 'pending'
     },
     vaccinations: [vaccinationSchema],
     images:       [{ type: String }],
