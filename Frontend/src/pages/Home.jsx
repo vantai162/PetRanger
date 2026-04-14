@@ -5,20 +5,20 @@ import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 export default function Home() {
   const services = [
     {
-      title: 'Pet Grooming',
-      description: 'Professional grooming services to keep your pet looking their best.',
+      title: 'Chăm sóc lông',
+      description: 'Dịch vụ làm đẹp chuyên nghiệp để giữ cho thú cưng của bạn luôn trông tốt nhất.',
       image:
         'https://images.unsplash.com/photo-1719464454959-9cf304ef4774?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXQlMjBncm9vbWluZyUyMHNlcnZpY2V8ZW58MXx8fHwxNzc1NDYwMjc4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     },
     {
-      title: 'Veterinary Care',
-      description: 'Comprehensive health care services by experienced veterinarians.',
+      title: 'Chăm sóc thú y',
+      description: 'Dịch vụ chăm sóc sức khỏe toàn diện do các bác sĩ thú y có kinh nghiệm cung cấp.',
       image:
         'https://images.unsplash.com/photo-1654895716780-b4664497420d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2ZXRlcmluYXJ5JTIwY2xpbmljfGVufDF8fHx8MTc3NTM5NTE4Mnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     },
     {
-      title: 'Pet Boarding',
-      description: 'Safe and comfortable accommodation when you need to be away.',
+      title: 'Chỗ ở cho thú cưng',
+      description: 'Nơi lưu trú an toàn và thoải mái khi bạn cần đi vắng.',
       image:
         'https://images.unsplash.com/photo-1743763959056-41bbb557272d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkb2clMjBib2FyZGluZyUyMGtlbm5lbHxlbnwxfHx8fDE3NzU0NjAyNzl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     },
@@ -26,17 +26,17 @@ export default function Home() {
 
   const testimonials = [
     {
-      name: 'Sarah Johnson',
-      text: 'PawfectCare has been amazing! My dog loves going there for grooming and the staff is so caring.',
+      name: 'Ted Hoang',
+      text: 'PetRanger thật tuyệt! Mấy con chó của tôi luôn được chăm sóc tốt nhất. Đội ngũ rất thân thiện và chuyên nghiệp.',
       rating: 5,
     },
     {
-      name: 'Michael Chen',
-      text: 'The veterinary services are top-notch. Dr. Smith really cares about the animals and takes time to explain everything.',
+      name: 'Hiruguma Uchiha',
+      text: '獣医療サービスは最高レベルです。スタッフは動物たちを心から大切に思っていて、すべてを丁寧に説明してくれます。',
       rating: 5,
     },
     {
-      name: 'Emily Rodriguez',
+      name: 'Thomas Muller',
       text: 'I board my cat here whenever I travel. The facilities are clean and I can see she is well taken care of.',
       rating: 5,
     },
@@ -47,11 +47,16 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative h-[600px] flex items-center">
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/40 z-10" />
-        <ImageWithFallback
-          src="https://images.unsplash.com/photo-1692145520080-3e72e0f3c4ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoYXBweSUyMGRvZyUyMHBldCUyMHN0b3JlfGVufDF8fHx8MTc3NTQ1Njg2NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-          alt="Happy pets"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+        <video
+            className="absolute inset-0 w-full h-full object-cover"
+            autoPlay
+            loop
+            muted
+            playsInline
+          >
+            <source src="/video/pet-hero.mp4" type="video/mp4" />
+            Trình duyệt của bạn không hỗ trợ video.
+          </video>
         <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
           <h1 className="text-5xl md:text-7xl mb-6 max-w-3xl">
             Chăm sóc thú cưng hoàn hảo

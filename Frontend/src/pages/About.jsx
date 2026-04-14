@@ -27,22 +27,22 @@ export default function About() {
 
   const team = [
     {
-      name: 'Dr. Sarah Johnson',
-      role: 'Chief Veterinarian',
+      name: 'Dr. Strange',
+      role: 'Trưởng bộ phận thú y',
       image: 'https://images.unsplash.com/photo-1654895716780-b4664497420d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2ZXRlcmluYXJ5JTIwY2xpbmljfGVufDF8fHx8MTc3NTM5NTE4Mnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      bio: '15+ years of veterinary experience specializing in small animal care.',
+      bio: 'Hơn 15 năm kinh nghiệm trong lĩnh vực thú y, chuyên về chăm sóc động vật nhỏ.',
     },
     {
-      name: 'Michael Chen',
-      role: 'Head Groomer',
+      name: 'Michael Jordan',
+      role: 'Trưởng bộ phận chăm sóc lông',
       image: 'https://images.unsplash.com/photo-1719464454959-9cf304ef4774?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXQlMjBncm9vbWluZyUyMHNlcnZpY2V8ZW58MXx8fHwxNzc1NDYwMjc4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      bio: 'Certified professional groomer with a passion for making pets look their best.',
+      bio: 'Hơn 10 năm kinh nghiệm trong lĩnh vực chăm sóc lông, chuyên về các kỹ thuật làm đẹp cho thú cưng.',
     },
     {
-      name: 'Emily Rodriguez',
-      role: 'Training Director',
+      name: 'Nguyễn Hưng',
+      role: 'Trưởng bộ phận đào tạo',
       image: 'https://images.unsplash.com/photo-1586671267731-da2cf3ceeb80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwdXBweSUyMHRyYWluaW5nfGVufDF8fHx8MTc3NTQ2MDI4MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      bio: 'Experienced dog trainer specializing in positive reinforcement methods.',
+      bio: 'Kinh nghiệm lâu năm trong việc huấn luyện chó, chuyên về các phương pháp tăng cường tích cực.',
     },
   ];
 
@@ -60,7 +60,7 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl mb-6">About PetRanger</h1>
           <p className="text-xl max-w-3xl mx-auto opacity-90">
-            Người bạn đồng hành đáng tin cậy của bạn.
+            Dev by: Hoang Van Tai
           </p>
         </div>
       </section>
