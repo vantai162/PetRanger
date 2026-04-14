@@ -94,7 +94,7 @@ export function Header({ currentUser, onLogout }) {
             {currentUser && (
               <button
                 type="button"
-                onClick={() => navigate('/products')}
+                onClick={() => navigate('/cart')}
                 className="relative flex items-center justify-center text-gray-600 hover:text-[#6ccff6] transition-colors"
               >
                 <ShoppingCart className="w-6 h-6" />

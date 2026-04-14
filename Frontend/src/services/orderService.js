@@ -33,3 +33,22 @@ export async function getOrderById(orderId, token) {
 
   return data.order;
 }
+
+export async function createOrder(orderData, token) {
+  const res = await fetch(`${API_BASE_URL}/create`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: JSON.stringify(orderData),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Tạo đơn hàng thất bại");
+  }
+
+  return data.order;
+}
