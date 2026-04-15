@@ -14,6 +14,7 @@ export default function Pets() {
   const [showAdoptionModal, setShowAdoptionModal] = useState(false);
   const [adoptionStep, setAdoptionStep] = useState(1);
   const [showAdoptionSuccess, setShowAdoptionSuccess] = useState(false);
+  const [showReviewNotice, setShowReviewNotice] = useState(false);
   const [adoptionForm, setAdoptionForm] = useState({
     fullName: '',
     phone: '',
@@ -110,6 +111,10 @@ export default function Pets() {
       const token = localStorage.getItem("token");
       if (!token) {
         alert("Bạn cần đăng nhập trước khi thêm thú cưng");
+        return;
+      }
+      if (token.userRole !== 'admin') {
+        setShowReviewNotice(true);
         return;
       }
       let processedPet = { ...newPet };
@@ -1015,6 +1020,30 @@ export default function Pets() {
             <button
               type="button"
               onClick={() => setShowAdoptionSuccess(false)}
+              className="ml-2 text-gray-400 hover:text-gray-600"
+            >
+              <Plus className="w-5 h-5 rotate-45" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Review Notice Toast */}
+      {showReviewNotice && (
+        <div className="fixed bottom-6 right-6 z-[70]">
+          <div className="bg-white border border-blue-100 shadow-xl rounded-lg px-5 py-4 max-w-sm flex items-start gap-3">
+            <div className="mt-1 h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xl">
+              i
+            </div>
+            <div className="flex-1">
+              <p className="font-semibold text-gray-900 mb-1">Thông báo</p>
+              <p className="text-sm text-gray-600">
+                Thú cưng của bạn sẽ được xem xét để thêm vào.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowReviewNotice(false)}
               className="ml-2 text-gray-400 hover:text-gray-600"
             >
               <Plus className="w-5 h-5 rotate-45" />
