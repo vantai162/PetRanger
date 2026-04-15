@@ -2,7 +2,6 @@ import User from "../models/user.model.js";
 import Customer from "../models/customer.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import redisClient from "../config/redis.js";
 import { sendEmailOTP } from "../config/email.js";
 
 const registerUser = async (req, res) => {
@@ -27,10 +26,12 @@ const registerUser = async (req, res) => {
         await Customer.create({
             user_id: newUser._id
         });
+
         const otp = generateOTP();
-        const key = `email_verify:${email.toLowerCase()}`;
-        // Lưu OTP vào Redis với TTL 10 phút (600 giây)
-        await redisClient.set(key, otp, { EX: 600 });
+        newUser.emailVerificationOtp = otp;
+        newUser.emailVerificationExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 phút
+        await newUser.save();
+
         // Gửi email
         await sendEmailOTP(email.toLowerCase(), otp);
         res.status(201).json({message: "User registered successfully ", userId: newUser._id});
@@ -86,29 +87,29 @@ const verifyEmail = async (req, res) => {
       return res.status(400).json({ message: "Thiếu email hoặc OTP" });
     }
 
-    const key = `email_verify:${email.toLowerCase()}`;
-    const storedOtp = await redisClient.get(key);
+        const user = await User.findOne({ email: email.toLowerCase() });
+        if (!user) {
+            return res.status(400).json({ message: "User không tồn tại" });
+        }
 
-    if (!storedOtp) {
-      return res.status(400).json({ message: "OTP đã hết hạn hoặc không tồn tại" });
-    }
+        if (!user.emailVerificationOtp || !user.emailVerificationExpires) {
+            return res.status(400).json({ message: "OTP đã hết hạn hoặc không tồn tại" });
+        }
 
-    if (storedOtp !== otp) {
-      return res.status(400).json({ message: "OTP không đúng" });
-    }
+        if (user.emailVerificationOtp !== otp) {
+            return res.status(400).json({ message: "OTP không đúng" });
+        }
 
-    const user = await User.findOne({ email: email.toLowerCase() });
-    if (!user) {
-      return res.status(400).json({ message: "User không tồn tại" });
-    }
+        if (user.emailVerificationExpires < new Date()) {
+            return res.status(400).json({ message: "OTP đã hết hạn" });
+        }
 
-    user.isVerified = true;
-    await user.save();
+        user.isVerified = true;
+        user.emailVerificationOtp = undefined;
+        user.emailVerificationExpires = undefined;
+        await user.save();
 
-    // Xoá OTP khỏi Redis sau khi dùng
-    await redisClient.del(key);
-
-    return res.status(200).json({ message: "Xác thực email thành công" });
+        return res.status(200).json({ message: "Xác thực email thành công" });
   } catch (error) {
     console.error("Verify email error:", error);
     res.status(500).json({ message: "Server error" });
@@ -131,11 +132,12 @@ const resetPassword = async (req, res) => {
         }
 
         const otp = generateOTP();
-        const key = `reset_password:${email.toLowerCase()}`;
-        console.log("Generated OTP:", otp, "for key:", key);
-        // Lưu OTP vào Redis với TTL 10 phút (600 giây)
-        await redisClient.set(key, otp, { EX: 600 });
-        console.log("OTP saved to Redis");
+        console.log("Generated OTP:", otp, "for email:", email.toLowerCase());
+
+        user.resetPasswordOtp = otp;
+        user.resetPasswordExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 phút
+        await user.save();
+
         // Gửi email OTP đặt lại mật khẩu
         await sendEmailOTP(email.toLowerCase(), otp);
 
@@ -152,18 +154,27 @@ const verifyResetOTP = async (req, res) => {
         if (!email || !otp) {
             return res.status(400).json({ message: "Thiếu email hoặc OTP" });
         }
-        const key = `reset_password:${email.toLowerCase()}`;
-        console.log("Verifying OTP for key:", key, "OTP:", otp);
-        const storedOtp = await redisClient.get(key);
-        console.log("Stored OTP from Redis:", storedOtp);
-        if (!storedOtp) {
+        const user = await User.findOne({ email: email.toLowerCase() });
+        if (!user) {
+            return res.status(400).json({ message: "User không tồn tại" });
+        }
+
+        if (!user.resetPasswordOtp || !user.resetPasswordExpires) {
             return res.status(400).json({ message: "OTP đã hết hạn hoặc không tồn tại" });
         }
-        if (storedOtp !== otp) {
+
+        if (user.resetPasswordOtp !== otp) {
             return res.status(400).json({ message: "OTP không đúng" });
         }
-        // OTP hợp lệ, xoá OTP và trả kết quả
-        await redisClient.del(key);
+
+        if (user.resetPasswordExpires < new Date()) {
+            return res.status(400).json({ message: "OTP đã hết hạn" });
+        }
+
+        // OTP hợp lệ, xoá OTP trong user và trả kết quả
+        user.resetPasswordOtp = undefined;
+        user.resetPasswordExpires = undefined;
+        await user.save();
         const token = jwt.sign({ email: email.toLowerCase() }, process.env.JWT_SECRET, { expiresIn: "15m" });
         return res.status(200).json({ message: "OTP hợp lệ", token });
     } catch (error) {
@@ -191,18 +202,6 @@ const changePassword = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
-
-// Test Redis connection
-export const testRedis = async (req, res) => {
-    try {
-        await redisClient.set("test", "hello", { EX: 10 });
-        const value = await redisClient.get("test");
-        res.json({ message: "Redis working", value });
-    } catch (error) {
-        res.status(500).json({ message: "Redis error", error: error.message });
-    }
-};
-
 
 export {registerUser, loginUser, verifyEmail, resetPassword, verifyResetOTP, changePassword};
 

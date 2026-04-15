@@ -1,6 +1,5 @@
 import Pet from '../models/pet.model.js';
 import Appointment from '../models/appointment.model.js';
-import redisClient from '../config/redis.js';
 
 export const createPet = async (req, res) => {
     try {

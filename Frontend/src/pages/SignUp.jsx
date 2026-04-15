@@ -41,9 +41,9 @@ export default function SignUp() {
       });
 
       console.log("Register success:", res);
-      //alert("Đăng ký thành công!");
-      // Có thể redirect sang /login hoặc lưu token nếu backend trả về
-      navigate('/login');
+      // Sau khi đăng ký, chuyển sang trang nhập OTP để xác thực email
+      alert("Đăng ký thành công! Vui lòng kiểm tra email để nhập mã OTP.");
+      navigate(`/verify-otp?type=signup&email=${encodeURIComponent(formData.email)}`);
     } catch (err) {
       alert(err.message);
     }

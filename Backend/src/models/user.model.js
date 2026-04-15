@@ -29,6 +29,18 @@ const userSchema = new Schema({
         type:String,
         enum:['customer','admin'],
         default:'customer'
+    },
+    emailVerificationOtp: {
+        type: String,
+    },
+    emailVerificationExpires: {
+        type: Date,
+    },
+    resetPasswordOtp: {
+        type: String,
+    },
+    resetPasswordExpires: {
+        type: Date,
     }
     }, { 
         timestamps: { createdAt: "created_at", updatedAt: "updated_at" } 
