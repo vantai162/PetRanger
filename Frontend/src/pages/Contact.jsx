@@ -9,11 +9,11 @@ export default function Contact() {
     service: '',
     message: '',
   });
+  const [submitMessage, setSubmitMessage] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission (mock)
-    alert('Thank you for contacting us! We will get back to you soon.');
+    setSubmitMessage('Lịch hẹn của bạn đã được gửi đi');
     setFormData({ name: '', email: '', phone: '', service: '', message: '' });
   };
 
@@ -56,7 +56,7 @@ export default function Contact() {
                     <p className="text-gray-600">
                       123 Pet Street<br />
                       Animal City, AC 12345<br />
-                      United States
+                      Vietnam
                     </p>
                   </div>
                 </div>
@@ -69,7 +69,7 @@ export default function Contact() {
                     <h3 className="font-semibold mb-1">Phone</h3>
                     <p className="text-gray-600">
                       Main: (555) 123-4567<br />
-                      Emergency: (555) 123-4568
+  
                     </p>
                   </div>
                 </div>
@@ -81,8 +81,8 @@ export default function Contact() {
                   <div>
                     <h3 className="font-semibold mb-1">Email</h3>
                     <p className="text-gray-600">
-                      General: hello@pawfectcare.com<br />
-                      Support: support@pawfectcare.com
+                      General: hoangvanteo162@gmail.com<br />
+                      Support: hoangvanteo162@gmail.com
                     </p>
                   </div>
                 </div>
@@ -94,9 +94,9 @@ export default function Contact() {
                   <div>
                     <h3 className="font-semibold mb-1">Hours</h3>
                     <p className="text-gray-600">
-                      Monday - Friday: 9:00 AM - 7:00 PM<br />
-                      Saturday: 9:00 AM - 5:00 PM<br />
-                      Sunday: 10:00 AM - 4:00 PM
+                      Thứ Hai - Thứ Sáu: 9:00 AM - 7:00 PM<br />
+                      Thứ Bảy: 9:00 AM - 5:00 PM<br />
+                      Chủ Nhật: 10:00 AM - 4:00 PM
                     </p>
                   </div>
                 </div>
@@ -106,6 +106,15 @@ export default function Contact() {
             {/* Contact Form */}
             <div className="bg-white rounded-lg shadow-md p-8">
               <h2 className="text-2xl mb-6">Gửi tin nhắn cho chúng tôi</h2>
+              {submitMessage && (
+                <div
+                  className="mb-6 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-green-800"
+                  role="status"
+                  aria-live="polite"
+                >
+                  {submitMessage}
+                </div>
+              )}
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
