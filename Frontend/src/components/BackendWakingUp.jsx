@@ -2,10 +2,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const PET_TIPS = [
-  'Meo nho: Cho cung can duoc choi 15-30 phut moi ngay de giam stress.',
-  'Meo nho: Nuoc sach luon san sang giup cho va meo khoe hon.',
-  'Meo nho: Kham dinh ky giup phat hien benh som va tiet kiem chi phi dieu tri.',
-  'Meo nho: Khen thuong dung luc giup thu cung hoc lenh nhanh hon.'
+  'Mẹo nhỏ: Chó cưng cần được chơi 15-30 phút mỗi ngày để giảm stress.',
+  'Mẹo nhỏ: Nước sạch luôn sẵn sàng giúp chó và mèo khỏe hơn.',
+  'Mẹo nhỏ: Khám định kỳ giúp phát hiện bệnh sớm và tiết kiệm chi phí điều trị.',
+  'Mẹo nhỏ: Khen thưởng đúng lúc giúp thú cưng học lệnh nhanh hơn.'
 ];
 
 const POLL_INTERVAL_MS = 3000;
@@ -89,7 +89,7 @@ function BackendWakingUp({ onReady }) {
 
       finished = true;
       clearInterval(pollId);
-      setErrorMessage('Backend chua san sang sau 90 giay. Vui long thu lai sau it phut.');
+      setErrorMessage('Backend chưa sẵn sàng sau 90 giây. Vui lòng thử lại sau ít phút.');
     }, MAX_WAIT_MS);
 
     return () => {
@@ -135,7 +135,7 @@ function BackendWakingUp({ onReady }) {
 
             <h1 className="text-center text-2xl font-bold text-orange-900">PetRanger</h1>
             <p className="mt-2 text-center text-base font-medium text-orange-700">
-              He thong dang khoi dong, vui long cho...
+              Hệ thống đang khởi động, vui lòng chờ...
             </p>
 
             <div className="mt-5 h-3 w-full overflow-hidden rounded-full bg-orange-100">
@@ -148,7 +148,7 @@ function BackendWakingUp({ onReady }) {
             </div>
 
             <div className="mt-3 flex items-center justify-center gap-2 text-sm text-orange-700">
-              <span>Dang cho... {elapsedSeconds}s</span>
+              <span>Đang chờ... {elapsedSeconds}s</span>
               <span className="inline-flex gap-1" aria-hidden="true">
                 <motion.span
                   animate={{ opacity: [0.25, 1, 0.25] }}
@@ -190,7 +190,7 @@ function BackendWakingUp({ onReady }) {
                   onClick={handleRetry}
                   className="mt-3 rounded-lg bg-orange-500 px-3 py-2 text-sm font-semibold text-white transition hover:bg-orange-600"
                 >
-                  Thu lai
+                  Thử lại
                 </button>
               </div>
             )}
