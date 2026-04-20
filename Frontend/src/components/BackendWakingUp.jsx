@@ -2,10 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const PET_TIPS = [
-  'Mẹo nhỏ: Chó cưng cần được chơi 15-30 phút mỗi ngày để giảm stress.',
-  'Mẹo nhỏ: Nước sạch luôn sẵn sàng giúp chó và mèo khỏe hơn.',
-  'Mẹo nhỏ: Khám định kỳ giúp phát hiện bệnh sớm và tiết kiệm chi phí điều trị.',
-  'Mẹo nhỏ: Khen thưởng đúng lúc giúp thú cưng học lệnh nhanh hơn.'
+  'Vì deployment bản free nên mất khoảng 30s để các service được khởi động hoàn toàn.',
+  'Mẹo nhỏ: Nước sạch luôn sẵn sàng giúp chó và mèo khỏe hơn.'
 ];
 
 const POLL_INTERVAL_MS = 3000;
