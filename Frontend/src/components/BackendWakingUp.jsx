@@ -115,12 +115,12 @@ function BackendWakingUp({ onReady }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.65, ease: 'easeOut' }}
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-amber-50 via-orange-50 to-white px-4"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-[#98ce00]/15 via-[#98ce00]/8 to-white px-4"
           role="status"
           aria-live="polite"
         >
-          <div className="w-full max-w-md rounded-3xl border border-orange-100 bg-white/90 p-6 shadow-[0_16px_50px_rgba(249,115,22,0.18)] backdrop-blur-sm sm:p-8">
-            <div className="mx-auto mb-5 flex w-fit items-center justify-center rounded-full bg-orange-100 p-4">
+          <div className="w-full max-w-md rounded-3xl border border-[#98ce00]/30 bg-white/90 p-6 shadow-[0_16px_50px_rgba(152,206,0,0.22)] backdrop-blur-sm sm:p-8">
+            <div className="mx-auto mb-5 flex w-fit items-center justify-center rounded-full bg-[#98ce00]/18 p-4">
               <motion.div
                 animate={{ y: [0, -6, 0], rotate: [0, -6, 6, 0] }}
                 transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
@@ -131,21 +131,21 @@ function BackendWakingUp({ onReady }) {
               </motion.div>
             </div>
 
-            <h1 className="text-center text-2xl font-bold text-orange-900">PetRanger</h1>
-            <p className="mt-2 text-center text-base font-medium text-orange-700">
+            <h1 className="text-center text-2xl font-bold text-[#3f5f00]">PetRanger</h1>
+            <p className="mt-2 text-center text-base font-medium text-[#5f8a00]">
               Hệ thống đang khởi động, vui lòng chờ...
             </p>
 
-            <div className="mt-5 h-3 w-full overflow-hidden rounded-full bg-orange-100">
+            <div className="mt-5 h-3 w-full overflow-hidden rounded-full bg-[#98ce00]/20">
               <motion.div
-                className="h-full rounded-full bg-gradient-to-r from-orange-300 via-orange-400 to-amber-500"
+                className="h-full rounded-full bg-gradient-to-r from-[#98ce00]/70 via-[#98ce00] to-[#7fad00]"
                 initial={{ width: '0%' }}
                 animate={{ width: `${progressPercent}%` }}
                 transition={{ ease: 'easeOut', duration: 0.5 }}
               />
             </div>
 
-            <div className="mt-3 flex items-center justify-center gap-2 text-sm text-orange-700">
+            <div className="mt-3 flex items-center justify-center gap-2 text-sm text-[#5f8a00]">
               <span>Đang chờ... {elapsedSeconds}s</span>
               <span className="inline-flex gap-1" aria-hidden="true">
                 <motion.span
@@ -175,7 +175,7 @@ function BackendWakingUp({ onReady }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.35 }}
-              className="mt-4 rounded-xl bg-amber-50 px-4 py-3 text-sm text-orange-800"
+              className="mt-4 rounded-xl bg-[#98ce00]/14 px-4 py-3 text-sm text-[#4a6f00]"
             >
               {PET_TIPS[tipIndex]}
             </motion.p>
@@ -186,7 +186,7 @@ function BackendWakingUp({ onReady }) {
                 <button
                   type="button"
                   onClick={handleRetry}
-                  className="mt-3 rounded-lg bg-orange-500 px-3 py-2 text-sm font-semibold text-white transition hover:bg-orange-600"
+                  className="mt-3 rounded-lg bg-[#98ce00] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#89b900]"
                 >
                   Thử lại
                 </button>
