@@ -1,9 +1,11 @@
 // Frontend/src/services/authService.js
 
+import { apiFetch } from './apiClient';
+
 const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/auth`;
 
 export async function registerUser({ fullName, email, phone, password }) {
-  const res = await fetch(`${API_BASE_URL}/register`, {
+  const res = await apiFetch(`${API_BASE_URL}/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -26,7 +28,7 @@ export async function registerUser({ fullName, email, phone, password }) {
 }
 
 export async function loginUser({ email, password }) {
-  const res = await fetch(`${API_BASE_URL}/login`, {
+  const res = await apiFetch(`${API_BASE_URL}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -44,7 +46,7 @@ export async function loginUser({ email, password }) {
 }
 
 export async function verifyEmailOTP({ email, otp }) {
-  const res = await fetch(`${API_BASE_URL}/verify-email`, {
+  const res = await apiFetch(`${API_BASE_URL}/verify-email`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, otp }),
@@ -58,7 +60,7 @@ export async function verifyEmailOTP({ email, otp }) {
 }
 
 export async function verifyResetOTP({ email, otp }) {
-  const res = await fetch(`${API_BASE_URL}/verify-reset-otp`, {
+  const res = await apiFetch(`${API_BASE_URL}/verify-reset-otp`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, otp }),
@@ -72,7 +74,7 @@ export async function verifyResetOTP({ email, otp }) {
 }
 
 export async function resetPassword({ email }) {
-  const res = await fetch(`${API_BASE_URL}/forgot-password`, {
+  const res = await apiFetch(`${API_BASE_URL}/forgot-password`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email }),
@@ -85,7 +87,7 @@ export async function resetPassword({ email }) {
 }
 
 export async function changePassword({ email, newPassword }) {
-  const res = await fetch(`${API_BASE_URL}/change-password`, {
+  const res = await apiFetch(`${API_BASE_URL}/change-password`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, newPassword }),

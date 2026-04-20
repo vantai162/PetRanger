@@ -12,6 +12,14 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.get('/', (req, res) => {
+  res.json({ message: 'Pet Ranger API is running 🐾' });
+});
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
 app.use('/api/pets', petRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
@@ -19,9 +27,6 @@ app.use('/api/services', serviceRoutes);
 app.use('/api/orders', orderRoutes);
 
 
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok' });
-});
 
 const startServer = async () => {
   await connectDB();

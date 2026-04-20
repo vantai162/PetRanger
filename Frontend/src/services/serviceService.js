@@ -1,7 +1,9 @@
+import { apiFetch } from './apiClient';
+
 const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/services`;
 
 export async function getAllServices() {
-    const res = await fetch(`${API_BASE_URL}`);
+    const res = await apiFetch(`${API_BASE_URL}`);
     const data = await res.json();
     if (!res.ok) {
         throw new Error(data.message || "Lấy danh sách dịch vụ thất bại");
@@ -10,7 +12,7 @@ export async function getAllServices() {
 }
 
 export async function getServiceById(serviceId) {
-    const res = await fetch(`${API_BASE_URL}/${serviceId}`);
+    const res = await apiFetch(`${API_BASE_URL}/${serviceId}`);
     const data = await res.json();
     if (!res.ok) {
         throw new Error(data.message || "Lấy thông tin dịch vụ thất bại");

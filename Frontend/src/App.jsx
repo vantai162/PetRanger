@@ -11,6 +11,7 @@ import VerifyOTP from './pages/VerifyOtp';
 import ResetPassword from './pages/ResetPassword';
 import Orders from './pages/Orders';
 import Cart from './pages/Cart';
+import BackendWakingUp from './components/BackendWakingUp';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
 import { useState,useEffect } from 'react';
@@ -18,6 +19,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
+  const [isBackendReady, setIsBackendReady] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -50,6 +52,11 @@ function App() {
     setCurrentUser(null);
     navigate('/login');
   };
+
+  if (!isBackendReady) {
+    return <BackendWakingUp onReady={() => setIsBackendReady(true)} />;
+  }
+
   return (
     <>
       <Header currentUser={currentUser} onLogout={handleLogout} />

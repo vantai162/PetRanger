@@ -1,3 +1,5 @@
+import { apiFetch } from './apiClient';
+
 const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/pets`;
 
 export async function createPet(petData, token) {
@@ -6,7 +8,7 @@ export async function createPet(petData, token) {
     imageUrl: petData.image, // map sang field backend dùng
   };
   delete body.image; // xóa field cũ để tránh conflict
-  const res = await fetch(`${API_BASE_URL}/add`, {
+  const res = await apiFetch(`${API_BASE_URL}/add`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -23,7 +25,7 @@ export async function createPet(petData, token) {
 
 export async function getPets(filters) {
   const query = new URLSearchParams(filters).toString();
-  const res = await fetch(`${API_BASE_URL}?${query}`);
+  const res = await apiFetch(`${API_BASE_URL}?${query}`);
   const data = await res.json();
   if (!res.ok) {
     throw new Error(data.message || "Lấy danh sách thú cưng thất bại");
@@ -32,7 +34,7 @@ export async function getPets(filters) {
 }
 
 export async function getPetById(petId) {
-  const res = await fetch(`${API_BASE_URL}/${petId}`);
+  const res = await apiFetch(`${API_BASE_URL}/${petId}`);
   const data = await res.json();
     if (!res.ok) {
         throw new Error(data.message || "Lấy thông tin thú cưng thất bại");
