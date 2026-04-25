@@ -11,6 +11,7 @@ import VerifyOTP from './pages/VerifyOtp';
 import ResetPassword from './pages/ResetPassword';
 import Orders from './pages/Orders';
 import Cart from './pages/Cart';
+import AdminDashboard from './pages/AdminDashboard';
 import BackendWakingUp from './components/BackendWakingUp';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
@@ -39,7 +40,14 @@ function App() {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       try {
-        setCurrentUser(JSON.parse(storedUser));
+        const parsedUser = JSON.parse(storedUser);
+        const normalizedUser = {
+          ...parsedUser,
+          role: parsedUser?.role ?? localStorage.getItem("role") ?? 'customer',
+        };
+
+        setCurrentUser(normalizedUser);
+        localStorage.setItem("user", JSON.stringify(normalizedUser));
       } catch {
         // nếu bị lỗi parse thì bỏ qua
       }
@@ -49,6 +57,7 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("role");
     setCurrentUser(null);
     navigate('/login');
   };
@@ -148,6 +157,17 @@ function App() {
               transition={pageTransition}
             >
               <Orders />
+            </motion.div>
+          } />
+          <Route path="/admin" element={
+            <motion.div
+              initial="initial"
+              animate="in"
+              exit="out"
+              variants={pageVariants}
+              transition={pageTransition}
+            >
+              <AdminDashboard />
             </motion.div>
           } />
           <Route
