@@ -25,9 +25,11 @@ export default function Login({ onLoginSuccess }) {
         id: res.userId,
         customerId: res.customerId,
         name: res.name ?? formData.email,
+        role: res.role ?? 'customer',
       };
 
       localStorage.setItem("token", res.token);
+      localStorage.setItem("role", user.role);
       localStorage.setItem("user", JSON.stringify(user));
       if (onLoginSuccess) {
         onLoginSuccess(user);

@@ -66,7 +66,8 @@ const loginUser = async (req, res) => {
             token,
             userId: user._id,
             customerId,
-            name: user.name
+            name: user.name,
+            role: user.role,
         });
     } catch (error) {
         console.error("Login error:", error);

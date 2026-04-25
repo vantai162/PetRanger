@@ -54,3 +54,20 @@ export async function createOrder(orderData, token) {
 
   return data.order;
 }
+
+export async function getAllOrders(token) {
+  const res = await apiFetch(`${API_BASE_URL}/`, {
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Lấy tất cả đơn hàng thất bại");
+  }
+
+  return data.orders || [];
+}

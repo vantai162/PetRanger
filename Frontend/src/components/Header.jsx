@@ -8,7 +8,7 @@ export function Header({ currentUser, onLogout }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
-
+  const isAdmin = currentUser?.role === 'admin';
   const navItems = [
     { path: '/', label: 'Trang chủ' },
     { path: '/services', label: 'Dịch vụ' },
@@ -121,6 +121,15 @@ export function Header({ currentUser, onLogout }) {
                   >
                     Đơn hàng
                   </button>
+                 {isAdmin && (
+                    <button
+                      type="button"
+                      onClick={() => navigate('/admin')}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    >
+                      Admin
+                    </button>
+                  )}
                   <button
                     type="button"
                     onClick={handleLogoutClick}
@@ -182,6 +191,28 @@ export function Header({ currentUser, onLogout }) {
                 <div className="py-2 rounded-lg bg-gray-100 text-gray-700 text-center mb-2">
                   {currentUser.name}
                 </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigate('/orders');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors mb-2"
+                >
+                  Đơn hàng
+                </button>
+                {isAdmin && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigate('/admin');
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors mb-2"
+                  >
+                    Admin
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={handleLogoutClick}

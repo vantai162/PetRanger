@@ -155,3 +155,13 @@ export const getOrderById = async (req, res) => {
     return res.status(500).json({ message: 'Lỗi máy chủ', error: error.message });
   }
 };
+
+export const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find().sort({ created_at: -1 });
+    return res.status(200).json({ orders });
+  } catch (error) {
+    console.error('Lỗi khi lấy tất cả đơn hàng:', error);
+    return res.status(500).json({ message: 'Lỗi máy chủ', error: error.message });
+  }
+};
