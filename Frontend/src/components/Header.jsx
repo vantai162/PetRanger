@@ -186,6 +186,26 @@ export function Header({ currentUser, onLogout }) {
                 </Link>
               </motion.div>
             ))}
+            {currentUser && (
+              <div className="mt-2 px-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigate('/cart');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="relative w-full flex items-center justify-center gap-2 py-2 px-4 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+                >
+                  <ShoppingCart className="w-5 h-5" />
+                  <span>Giỏ hàng</span>
+                  {cartCount > 0 && (
+                    <span className="ml-2 min-w-[18px] h-[18px] px-1 rounded-full bg-red-500 text-white text-[11px] flex items-center justify-center">
+                      {cartCount}
+                    </span>
+                  )}
+                </button>
+              </div>
+            )}
             {currentUser ? (
               <div className="mt-2 px-4">
                 <div className="py-2 rounded-lg bg-gray-100 text-gray-700 text-center mb-2">
