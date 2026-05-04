@@ -2,6 +2,7 @@ import { Scissors, Stethoscope, Home, GraduationCap } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { getAllServices } from '../services/serviceService';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Services() {
   const [services, setServices] = useState([]);
@@ -75,9 +76,12 @@ export default function Services() {
                     </div>
                     <div className="flex items-center gap-4">
                       <span className="text-2xl text-[#98CE00]">Từ {service.price}.000 VNĐ</span>
-                      <button className="bg-[#98CE00] hover:bg-[#7BA800] text-white px-6 py-2 rounded-lg transition-colors">
+                      <Link
+                        to="/contact"
+                        className="bg-[#98CE00] hover:bg-[#7BA800] text-white px-6 py-2 rounded-lg transition-colors"
+                      >
                         Đặt ngay
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
