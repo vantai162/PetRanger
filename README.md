@@ -12,7 +12,7 @@ PetRanger là một nền tảng web toàn diện dành cho thú cưng, cho phé
 
 ### 🛒 Pet Shop
 
-* Mua sắm các sản phẩm dành cho thú cưng:
+* Mua sắm các sản phẩm dành cho thú cưng(petssss):
 
   * Thức ăn
   * Dây dắt (leash)
