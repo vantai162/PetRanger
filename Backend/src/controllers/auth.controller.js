@@ -204,5 +204,26 @@ const changePassword = async (req, res) => {
     }
 };
 
-export {registerUser, loginUser, verifyEmail, resetPassword, verifyResetOTP, changePassword};
+const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: "User không tồn tại" });
+        }
+
+        // Delete associated Customer record
+        await Customer.findOneAndDelete({ user_id: id });
+
+        // Delete the user
+        await User.findByIdAndDelete(id);
+
+        return res.status(200).json({ message: "Xoá người dùng thành công" });
+    } catch (error) {
+        console.error("Delete user error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+export {registerUser, loginUser, verifyEmail, resetPassword, verifyResetOTP, changePassword, deleteUser};
 
