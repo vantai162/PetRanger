@@ -41,11 +41,12 @@ const userSchema = new Schema({
     },
     resetPasswordExpires: {
         type: Date,
+    },
+    refreshToken: {
+        type: String,
     }
     }, { 
         timestamps: { createdAt: "created_at", updatedAt: "updated_at" } 
     });
-
-
 
 export default mongoose.model("User", userSchema);
