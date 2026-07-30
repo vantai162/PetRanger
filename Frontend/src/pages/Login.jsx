@@ -29,6 +29,7 @@ export default function Login({ onLoginSuccess }) {
       };
 
       localStorage.setItem("token", res.token);
+      localStorage.setItem("refreshToken", res.refreshToken);
       localStorage.setItem("role", user.role);
       localStorage.setItem("user", JSON.stringify(user));
       if (onLoginSuccess) {

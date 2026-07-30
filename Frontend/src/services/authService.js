@@ -42,7 +42,34 @@ export async function loginUser({ email, password }) {
     throw new Error(data.message || "Đăng nhập thất bại");
   }
 
+  if (data.refreshToken) {
+    localStorage.setItem("refreshToken", data.refreshToken);
+  }
+
   return data; // { message, token, userId }
+}
+
+export async function refreshAccessToken() {
+  const storedRefreshToken = localStorage.getItem("refreshToken");
+  if (!storedRefreshToken) {
+    throw new Error("No refresh token available");
+  }
+  const res = await fetch(`${API_BASE_URL}/refresh-token`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ refreshToken: storedRefreshToken }),
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
+    localStorage.removeItem("role");
+    throw new Error(data.message || "Session expired. Please log in again.");
+  }
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("refreshToken", data.refreshToken);
+  return data;
 }
 
 export async function verifyEmailOTP({ email, otp }) {

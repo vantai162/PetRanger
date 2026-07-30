@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import Customer from "../models/customer.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 import { sendEmailOTP } from "../config/email.js";
 
 const registerUser = async (req, res) => {
@@ -61,9 +62,16 @@ const loginUser = async (req, res) => {
         const customerId = customer ? customer._id : null;
 
         const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {expiresIn: "1h"});
+
+        const rawRefreshToken = crypto.randomBytes(40).toString('hex');
+        const hashedRefreshToken = await bcrypt.hash(rawRefreshToken, 10);
+        user.refreshToken = hashedRefreshToken;
+        await user.save();
+
         res.status(200).json({
             message: "Login successful",
             token,
+            refreshToken: rawRefreshToken,
             userId: user._id,
             customerId,
             name: user.name,
@@ -204,5 +212,34 @@ const changePassword = async (req, res) => {
     }
 };
 
-export {registerUser, loginUser, verifyEmail, resetPassword, verifyResetOTP, changePassword};
+const refreshTokenFn = async (req, res) => {
+    try {
+        const { refreshToken: incomingToken } = req.body;
+        if (!incomingToken) {
+            return res.status(401).json({ message: "Refresh token is required" });
+        }
+        const users = await User.find({ refreshToken: { $exists: true, $ne: null } });
+        let matchedUser = null;
+        for (const u of users) {
+            const isValid = await bcrypt.compare(incomingToken, u.refreshToken);
+            if (isValid) {
+                matchedUser = u;
+                break;
+            }
+        }
+        if (!matchedUser) {
+            return res.status(401).json({ message: "Invalid or expired refresh token" });
+        }
+        const newAccessToken = jwt.sign({ userId: matchedUser._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const newRawRefreshToken = crypto.randomBytes(40).toString('hex');
+        const newHashedRefreshToken = await bcrypt.hash(newRawRefreshToken, 10);
+        matchedUser.refreshToken = newHashedRefreshToken;
+        await matchedUser.save();
+        return res.status(200).json({ token: newAccessToken, refreshToken: newRawRefreshToken });
+    } catch (error) {
+        console.error("Refresh token error:", error);
+        return res.status(500).json({ message: "Server error" });
+    }
+};
 
+export {registerUser, loginUser, verifyEmail, resetPassword, verifyResetOTP, changePassword, refreshTokenFn as refreshToken};
